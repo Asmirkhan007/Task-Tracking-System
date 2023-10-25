@@ -1,11 +1,5 @@
-import React from 'react'
-import User from './components/user-component/User';
+import React from "react";
 
 export default function Home() {
-  return (
-    <>
-      {/* <div>Home</div> */}
-      <User/>
-    </>
-  );
+  return <h1>I am the Home Page</h1>;
 }

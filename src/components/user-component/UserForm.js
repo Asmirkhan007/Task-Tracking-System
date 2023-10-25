@@ -24,6 +24,7 @@ export default function UserForm() {
 
   return (
     <>
+      <h1> Add New User</h1>
       <div className="form-control">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-element">
