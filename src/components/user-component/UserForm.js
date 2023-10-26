@@ -3,19 +3,28 @@ import { useForm } from "react-hook-form";
 import "./UserForm.css";
 
 export default function UserForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset, // Add reset from useForm
-  } = useForm();
+   const {
+     register,
+     handleSubmit,
+     formState: { errors },
+     reset,
+   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Clear the form after successful submission
-    reset();
-  };
+   const onSubmit = (data) => {
+     // Retrieve the existing user data from local storage
+     const existingUserData =
+       JSON.parse(localStorage.getItem("userData")) || [];
 
+     // Add the new user data to the existing data
+     const updatedUserData = [...existingUserData, data];
+     console.log(updatedUserData);
+
+     // Store the updated data in local storage
+     localStorage.setItem("userData", JSON.stringify(updatedUserData));
+
+     // Clear the form after successful submission
+     reset();
+   };
   const displayError = (fieldName) => {
     return errors[fieldName] ? (
       <p className="error-message">{errors[fieldName].message}</p>
