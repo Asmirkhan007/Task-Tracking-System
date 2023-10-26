@@ -2,26 +2,30 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserTable from "./UserTable";
 import "./Users.css";
-// import UserForm from "./UserForm";
-// import userArray from "./userArray"; // Import userArray
+import UserForm from "./UserForm";
+import userArray from "./userArray";
 
 export default function Users() {
-  const [users, setUsers] = useState([]); // Initialize the user list with an empty array
-
-  // Function to add a new user to the list and local storage
-  // const addUser = (user) => {
-  //   const updatedUsers = [...users, user];
-  //   setUsers(updatedUsers);
-  //   localStorage.setItem("userData", JSON.stringify(updatedUsers));
-  // };
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Retrieve user list from local storage on component mount
-    const userList = JSON.parse(localStorage.getItem("userData"));
-    if (userList) {
-      setUsers(userList);
-    }
-  }, []); // The empty dependency array ensures this effect runs once on mount
+    const userList = JSON.parse(localStorage.getItem("userData")) || userArray; // Use the local storage data or the default array
+    setUsers(userList);
+  }, []);
+
+  const addUser = (user) => {
+    const updatedUsers = [...users, user];
+    setUsers(updatedUsers);
+    localStorage.setItem("userData", JSON.stringify(updatedUsers));
+  };
+
+  const editUser = (id, data) => {
+    const updatedUsers = users.map((user, index) =>
+      index === id ? data : user
+    );
+    setUsers(updatedUsers);
+    localStorage.setItem("userData", JSON.stringify(updatedUsers));
+  };
 
   return (
     <div className="App users-container">
@@ -29,8 +33,7 @@ export default function Users() {
       <Link to="/adduser">
         <button className="add-user-button">Add User</button>
       </Link>
-      {/* <UserForm addUser={addUser} /> */}
-      <UserTable users={users} />
+      <UserTable users={users} onEdit={editUser} />
     </div>
   );
 }

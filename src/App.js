@@ -10,6 +10,7 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/users" element={<Users />} />
       <Route path="/adduser" element={<UserForm />} />
+      <Route path="/edituser/:id" element={<UserForm />} />
     </Routes>
   );
 }

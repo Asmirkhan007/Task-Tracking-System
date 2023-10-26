@@ -1,30 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "./UserForm.css";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 export default function UserForm() {
-   const {
-     register,
-     handleSubmit,
-     formState: { errors },
-     reset,
-   } = useForm();
+  const { id } = useParams();
+     const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-   const onSubmit = (data) => {
-     // Retrieve the existing user data from local storage
-     const existingUserData =
-       JSON.parse(localStorage.getItem("userData")) || [];
+  useEffect(() => {
+    if (id) {
+      const item = localStorage.getItem("userData");
+      if (item) {
+        const userData = JSON.parse(item);
+        const userToEdit = userData[id];
+        if (userToEdit) {
+          reset(userToEdit);
+        }
+      }
+    }
+  }, [id, reset]);
 
-     // Add the new user data to the existing data
-     const updatedUserData = [...existingUserData, data];
-     console.log(updatedUserData);
-
-     // Store the updated data in local storage
-     localStorage.setItem("userData", JSON.stringify(updatedUserData));
-
-     // Clear the form after successful submission
-     reset();
-   };
+  const onSubmit = (data) => {
+    const existingUserData = JSON.parse(localStorage.getItem("userData")) || [];
+    if (id) {
+      const updatedUserData = existingUserData.map((user, index) =>
+        index === parseInt(id) ? data : user
+      );
+      localStorage.setItem("userData", JSON.stringify(updatedUserData));
+    } else {
+      const updatedUserData = [...existingUserData, data];
+      localStorage.setItem("userData", JSON.stringify(updatedUserData));
+    }
+    reset();
+     navigate("/users");
+  };
   const displayError = (fieldName) => {
     return errors[fieldName] ? (
       <p className="error-message">{errors[fieldName].message}</p>
@@ -124,7 +139,12 @@ export default function UserForm() {
             {displayError("gender")}
           </div>
           <div className="form-element">
-            <button type="submit">Submit</button>
+            <button type="submit">{id ? "Save" : "Submit"}</button>
+            {id && (
+              <Link to="/users">
+                <button>Cancel</button>
+              </Link>
+            )}
           </div>
         </form>
       </div>
