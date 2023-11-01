@@ -18,6 +18,9 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     setOpenModal(false);
   };
 
+  const userData = JSON.parse(localStorage.getItem("userData")) || [];
+
+
   return (
     <div className="table-container">
       <h2>Project Data</h2>
@@ -47,11 +50,11 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
               <td>{project.priority}</td>
               <td>{project.techStack}</td>
               <td>
-                {project.selectedUsers  ? (
-                  
-                  project.selectedUsers.map((user) => (
-                    <div key={user}>{user.name}</div>
-                  ))
+                {project.selectedUsers ? (
+                  project.selectedUsers.map((userId) => {
+                    const user = userData.find((u) => u.id === userId);
+                    return <div key={userId}>{user.name}</div>;
+                  })
                 ) : (
                   <div>Yet to be assigned</div>
                 )}
