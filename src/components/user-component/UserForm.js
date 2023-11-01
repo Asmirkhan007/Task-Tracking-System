@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import "./UserForm.css";
+import { v4 as uuidv4 } from "uuid"; // Import UUID generation function
+import "./css/UserForm.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
 export default function UserForm() {
   const { id } = useParams();
-     const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,7 +19,7 @@ export default function UserForm() {
       const item = localStorage.getItem("userData");
       if (item) {
         const userData = JSON.parse(item);
-        const userToEdit = userData[id];
+        const userToEdit = userData.find((user) => user.id === id); // Assuming each user has a unique "id" field
         if (userToEdit) {
           reset(userToEdit);
         }
@@ -26,20 +27,24 @@ export default function UserForm() {
     }
   }, [id, reset]);
 
+  
+
   const onSubmit = (data) => {
     const existingUserData = JSON.parse(localStorage.getItem("userData")) || [];
     if (id) {
-      const updatedUserData = existingUserData.map((user, index) =>
-        index === parseInt(id) ? data : user
+      const updatedUserData = existingUserData.map((user) =>
+        user.id === id ? { ...user, ...data } : user
       );
       localStorage.setItem("userData", JSON.stringify(updatedUserData));
     } else {
-      const updatedUserData = [...existingUserData, data];
+      const newUser = { ...data, id: uuidv4() }; // Generate and assign a UUID
+      const updatedUserData = [...existingUserData, newUser];
       localStorage.setItem("userData", JSON.stringify(updatedUserData));
     }
     reset();
-     navigate("/users");
+    navigate("/users");
   };
+
   const displayError = (fieldName) => {
     return errors[fieldName] ? (
       <p className="error-message">{errors[fieldName].message}</p>

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserTable from "./UserTable";
-import "./Users.css";
-import UserForm from "./UserForm";
+import "./css/Users.css";
 import userArray from "./userArray";
 
 export default function Users() {
@@ -13,18 +12,18 @@ export default function Users() {
     setUsers(userList);
   }, []);
 
-  const addUser = (user) => {
-    const updatedUsers = [...users, user];
+  const editUser = (id, data) => {
+    const updatedUsers = users.map((user) => (user.id === id ? data : user));
     setUsers(updatedUsers);
     localStorage.setItem("userData", JSON.stringify(updatedUsers));
   };
 
-  const editUser = (id, data) => {
-    const updatedUsers = users.map((user, index) =>
-      index === id ? data : user
-    );
-    setUsers(updatedUsers);
-    localStorage.setItem("userData", JSON.stringify(updatedUsers));
+  const handleDelete = (id) => {
+   
+      const updatedUsers = users.filter((user) => user.id !== id);
+      setUsers(updatedUsers);
+      localStorage.setItem("userData", JSON.stringify(updatedUsers));
+    
   };
 
   return (
@@ -33,7 +32,7 @@ export default function Users() {
       <Link to="/adduser">
         <button className="add-user-button">Add User</button>
       </Link>
-      <UserTable users={users} onEdit={editUser} />
+      <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
     </div>
   );
 }
