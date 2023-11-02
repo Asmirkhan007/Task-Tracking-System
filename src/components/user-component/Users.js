@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import UserTable from "./UserTable";
 import "./css/Users.css";
 import userArray from "./userArray";
+import Button from "../styled-components/Button";
+import CustomNavbar from "../styled-components/Navbar";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const userList = JSON.parse(localStorage.getItem("userData")) || userArray; // Use the local storage data or the default array
+    const userList = JSON.parse(localStorage.getItem("userData")) || userArray;
     setUsers(userList);
   }, []);
 
@@ -19,20 +21,23 @@ export default function Users() {
   };
 
   const handleDelete = (id) => {
-   
-      const updatedUsers = users.filter((user) => user.id !== id);
-      setUsers(updatedUsers);
-      localStorage.setItem("userData", JSON.stringify(updatedUsers));
-    
+    const updatedUsers = users.filter((user) => user.id !== id);
+    setUsers(updatedUsers);
+    localStorage.setItem("userData", JSON.stringify(updatedUsers));
   };
 
   return (
-    <div className="App users-container">
-      <h1>User Registration Form</h1>
-      <Link to="/adduser">
-        <button className="add-user-button">Add User</button>
-      </Link>
-      <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
-    </div>
+    <>
+      <CustomNavbar />
+      <div className="App users-container">
+        <div className="header-container">
+          <h2 className="users-heading">User Details</h2>
+          <Link to="/adduser">
+            <Button className="add-user-button">Adding User</Button>
+          </Link>
+        </div>
+        <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
+      </div>
+    </>
   );
 }

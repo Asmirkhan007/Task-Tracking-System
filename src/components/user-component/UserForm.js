@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid"; // Import UUID generation function
-import "./css/UserForm.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import Button from "../styled-components/Button";
+import CustomNavbar from "../styled-components/Navbar";
+import './css/UserForm.css'
 
 export default function UserForm() {
   const { id } = useParams();
@@ -53,11 +55,13 @@ export default function UserForm() {
 
   return (
     <>
+    <CustomNavbar/>
+    <br/>
       <h1> Add New User</h1>
-      <div className="form-control">
         <form onSubmit={handleSubmit(onSubmit)}>
+          
           <div className="form-element">
-            <label>Name</label>
+            <label>Name </label>
             <input
               type="text"
               name="name"
@@ -123,16 +127,6 @@ export default function UserForm() {
               <div>
                 <input
                   type="radio"
-                  id="female"
-                  name="gender"
-                  {...register("gender", { required: "Gender is required" })}
-                  value="female"
-                />
-                <label htmlFor="female">Female</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
                   id="male"
                   name="gender"
                   {...register("gender", { required: "Gender is required" })}
@@ -140,19 +134,29 @@ export default function UserForm() {
                 />
                 <label htmlFor="male">Male</label>
               </div>
+              <div>
+                <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  {...register("gender", { required: "Gender is required" })}
+                  value="female"
+                />
+                <label htmlFor="female">Female</label>
+              </div>
             </div>
             {displayError("gender")}
           </div>
           <div className="form-element">
-            <button type="submit">{id ? "Save" : "Submit"}</button>
+            <Button type="submit">{id ? "Save" : "Submit"}</Button>
             {id && (
               <Link to="/users">
-                <button>Cancel</button>
+                <Button>Cancel</Button>
               </Link>
             )}
           </div>
         </form>
-      </div>
+      
     </>
   );
 }

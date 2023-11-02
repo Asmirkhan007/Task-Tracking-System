@@ -1,10 +1,33 @@
 /* Users.css */
-.users-container {
+.projects-container {
   position: relative;
 }
 
-.add-user-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+/* Users.css (or global styles) */
+.add-project-button-container {
+  display: flex;
+  justify-content: flex-end; /* Align the button to the right */
+  margin-top: 20px; /* Add margin to separate it from the table */
+   margin-right: 30px;
+}
+
+.add-project-button {
+  background-color: #007bff; /* Change the button color */
+  color: #fff; /* Text color */
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.add-project-button:hover {
+  background-color: #0056b3; /* Change the hover color */
+}
+
+.projects-heading {
+  text-align: center;
 }

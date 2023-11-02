@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Modal from "./Modal";
+import Modal from "../styled-components/Modal";
 import "./css/UserTable.css";
 import "./css/Modal.css";
+import Button from "../styled-components/Button";
+import Pagination from "../styled-components/Pagination";
 
 export default function UserTable({ users, onEdit, onDelete }) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; // Number of items per page
 
   const openDeleteModal = (userId) => {
     setSelectedUserId(userId);
@@ -18,9 +22,17 @@ export default function UserTable({ users, onEdit, onDelete }) {
     setOpenModal(false);
   };
 
+  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="table-container">
-      <h2>User Data</h2>
       <table>
         <thead>
           <tr>
@@ -36,9 +48,9 @@ export default function UserTable({ users, onEdit, onDelete }) {
           </tr>
         </thead>
         <tbody>
-          {users.map((user,index) => (
+          {currentItems.map((user, index) => (
             <tr key={user.id}>
-              <td>{index+1}</td>
+              <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
@@ -47,16 +59,22 @@ export default function UserTable({ users, onEdit, onDelete }) {
               <td>{user.gender}</td>
               <td>
                 <Link to={`/edituser/${user.id}`}>
-                  <button>Edit</button>
+                  <Button>Edit</Button>
                 </Link>
               </td>
               <td>
-                <button onClick={() => openDeleteModal(user.id)}>Delete</button>
+                <Button onClick={() => openDeleteModal(user.id)}>Delete</Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
       <Modal
         open={openModal}
         onClose={closeDeleteModal}

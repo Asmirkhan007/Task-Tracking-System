@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { Link, useParams, useNavigate } from "react-router-dom";
-
+import Button from "../styled-components/Button"
 import "./css/ProjectForm.css";
+import CustomNavbar from "../styled-components/Navbar";
 
 export default function ProjectForm() {
   const { id } = useParams();
@@ -66,6 +67,7 @@ export default function ProjectForm() {
   const selectedUserTagClass = "selected-user-tag";
   return (
     <>
+    <CustomNavbar/>
       <h1>{id ? "Edit Project" : "Add New Project"}</h1>
       <div className="form-control">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -165,10 +167,10 @@ export default function ProjectForm() {
           </div>
         </div>
           <div className="form-element">
-            <button type="submit">{id ? "Save" : "Submit"}</button>
+            <Button type="submit">{id ? "Save" : "Submit"}</Button>
             {id && (
               <Link to="/projects">
-                <button>Cancel</button>
+                <Button>Cancel</Button>
               </Link>
             )}
           </div>

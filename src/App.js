@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Users from "./components/user-component/Users";
 import UserForm from "./components/user-component/UserForm";
-import Home from "./HomePage";
+import Home from "./components/home-component/HomePage";
 import Projects from "./components/project-component/Projects";
 import ProjectForm from "./components/project-component/ProjectForm";
 
