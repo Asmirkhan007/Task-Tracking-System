@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import './Pagination.css';
 function Pagination({ currentPage, totalPages, onPageChange }) {
-  const [localPage, setLocalPage] = useState(currentPage);
+ const [localPage, setLocalPage] = useState(
+   parseInt(localStorage.getItem("currentPage")) || currentPage
+ );
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setLocalPage(pageNumber);
       onPageChange(pageNumber);
+      localStorage.setItem("currentPage", pageNumber);
     }
   };
 

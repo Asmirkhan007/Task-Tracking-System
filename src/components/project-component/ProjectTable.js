@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Link } from "react-router-dom";
 import Modal from "../styled-components/Modal";
 import Button from "../styled-components/Button";
@@ -10,7 +10,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+ const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Number of items per page
 
   
@@ -61,12 +61,20 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
   const userData = JSON.parse(localStorage.getItem("userData")) || [];
 
   const totalPages = Math.ceil(projects.length / itemsPerPage);
+
+  useEffect(() => {
+    const savedPage = localStorage.getItem("currentPage");
+    if (savedPage) {
+      setCurrentPage(parseInt(savedPage, 10));
+    }
+  }, []);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+      localStorage.setItem("currentPage", pageNumber);
   };
 
   return (
