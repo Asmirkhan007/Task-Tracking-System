@@ -68,8 +68,9 @@ export default function ProjectForm() {
   return (
     <>
     <CustomNavbar/>
+    <br/>
       <h1>{id ? "Edit Project" : "Add New Project"}</h1>
-      <div className="form-control">
+    
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-element">
             <label>Project Name</label>
@@ -137,9 +138,7 @@ export default function ProjectForm() {
           <select
             name="selectedUsers"
             multiple
-            {...register("selectedUsers", {
-              required: "Assign at least one user",
-            })}
+            {...register("selectedUsers")}
             onChange={handleUserSelectChange}
             value={selectedUsers}
           >
@@ -175,7 +174,7 @@ export default function ProjectForm() {
             )}
           </div>
         </form>
-      </div>
+    
     </>
   );
 }

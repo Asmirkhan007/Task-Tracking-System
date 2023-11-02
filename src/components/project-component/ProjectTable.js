@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../styled-components/Modal";
-import "./css/ProjectTable.css";
-import "./css/Modal.css";
 import Button from "../styled-components/Button";
 import Pagination from "../styled-components/Pagination"; // Import the Pagination component
+import AssignUsersModal from "../styled-components/AssignUserModal";
 
 export default function ProjectTable({ projects, onEdit, onDelete }) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Number of items per page
+
+  
 
   const openDeleteModal = (projectId) => {
     setSelectedProjectId(projectId);
@@ -20,6 +23,39 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
   const closeDeleteModal = () => {
     setSelectedProjectId(null);
     setOpenModal(false);
+  };
+
+  const openAssignUsersModal = (projectId) => {
+    const project = projects.find((p) => p.id === projectId);
+    setSelectedUsers(project.selectedUsers || []);
+    setSelectedProjectId(projectId);
+    setAssignUsersModalOpen(true);
+  };
+
+  const closeAssignUsersModal = () => {
+    setSelectedProjectId(null);
+    setAssignUsersModalOpen(false);
+  };
+
+  
+
+  const handleAssignUsersConfirm = () => {
+    const updatedProjects = projects.map((project) => {
+      if (project.id === selectedProjectId) {
+        return {
+          ...project,
+          selectedUsers: selectedUsers,
+        };
+      } 
+      return project;
+    });
+
+    // Update local storage or your data management logic here
+    localStorage.setItem("projectData", JSON.stringify(updatedProjects));
+
+    closeAssignUsersModal();
+
+     setSelectedUsers(selectedUsers);
   };
 
   const userData = JSON.parse(localStorage.getItem("userData")) || [];
@@ -48,6 +84,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
               <th>Tech Stack</th>
               <th>Users</th>
               <th>Edit</th>
+              <th>Assign Users</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -62,7 +99,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                 <td>{project.priority}</td>
                 <td>{project.techStack}</td>
                 <td>
-                  {project.selectedUsers ? (
+                  {project.selectedUsers.length > 0 ? (
                     project.selectedUsers.map((userId) => {
                       const user = userData.find((u) => u.id === userId);
                       return <div key={userId}>{user.name}</div>;
@@ -75,6 +112,11 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                   <Link to={`/editproject/${project.id}`}>
                     <Button>Edit</Button>
                   </Link>
+                </td>
+                <td>
+                  <Button onClick={() => openAssignUsersModal(project.id)}>
+                    Assign Users
+                  </Button>
                 </td>
                 <td>
                   <Button onClick={() => openDeleteModal(project.id)}>
@@ -99,6 +141,15 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
           }}
         />
       </div>
+      <AssignUsersModal
+        open={assignUsersModalOpen}
+        onClose={closeAssignUsersModal}
+        selectedUsers={selectedUsers}
+        setSelectedUsers={setSelectedUsers}
+        onConfirm={handleAssignUsersConfirm}
+        userData={userData}
+  // Pass the function
+      />
     </>
   );
 }

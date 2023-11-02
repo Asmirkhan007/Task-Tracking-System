@@ -1,8 +1,9 @@
 /* Users.css */
 .header-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* Pushes elements apart, aligning the heading to the center and the button to the right */
+  align-items: center; /* Centers elements vertically */
+  margin-top: 20px; /* Add some top margin for spacing */
 }
 
 .users-heading {
@@ -20,8 +21,4 @@
   text-align: center;
   transition: background-color 0.3s;
   cursor: pointer;
-}
-
-.add-user-button:hover {
-  background-color: #0056b3;
 }
