@@ -30,6 +30,16 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     setSelectedUsers(project.selectedUsers || []);
     setSelectedProjectId(projectId);
     setAssignUsersModalOpen(true);
+      const userData = JSON.parse(localStorage.getItem("userData")) || [];
+      if (userData.length === 0) {
+        // Display a message if there are no users
+        alert(
+          "Please note that only placeholder users are available. You can create new users to proceed."
+        );
+      } else {
+        setAssignUsersModalOpen(true);
+      }
+
   };
 
   const closeAssignUsersModal = () => {

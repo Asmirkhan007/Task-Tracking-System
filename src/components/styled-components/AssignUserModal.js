@@ -6,7 +6,7 @@ const AssignUsersModal = ({
   selectedUsers,
   setSelectedUsers,
   onConfirm,
-  userData
+  userData,
 }) => {
   if (!open) return null;
 
@@ -19,12 +19,11 @@ const AssignUsersModal = ({
     setSelectedUsers(selectedUserIds);
   };
 
-  
   const handleConfirm = () => {
     // Call the onConfirm function to update the selectedUsers in the parent component
     onConfirm();
     onClose(); // Close the modal after confirming
-     window.location.reload();
+    window.location.reload();
   };
 
   return (
@@ -35,19 +34,25 @@ const AssignUsersModal = ({
             X
           </p>
           <div className="content">
-            <p>Assign Users to this project:</p>
-            <select
-              name="selectedUsers"
-              multiple
-              onChange={handleUserSelection}
-              value={selectedUsers}
-            >
-              {userData.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.name}
-                </option>
-              ))}
-            </select>
+            {userData.length === 0 ? (
+              <p>No data available</p>
+            ) : (
+              <>
+                <p>Assign Users to this project:</p>
+                <select
+                  name="selectedUsers"
+                  multiple
+                  onChange={handleUserSelection}
+                  value={selectedUsers}
+                >
+                  {userData.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
           </div>
           <div className="btnContainer">
             <button className="btnPrimary" onClick={handleConfirm}>

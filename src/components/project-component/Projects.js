@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProjectTable from "./ProjectTable";
 import "./css/Projects.css";
-import projectArray from "./projectArray";
+import dummyProjects from "./projectArray";
 import Button from "../styled-components/Button";
 
 import CustomNavbar from "../styled-components/Navbar";
@@ -12,7 +12,7 @@ export default function Projects() {
 
   useEffect(() => {
     const projectList =
-      JSON.parse(localStorage.getItem("projectData")) || projectArray; // Use the local storage data or the default array
+      JSON.parse(localStorage.getItem("projectData")) || dummyProjects; // Use the local storage data or the default array
     setProjects(projectList);
   }, []);
 
