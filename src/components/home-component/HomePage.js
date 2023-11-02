@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import CustomNavbar from "../styled-components/Navbar";
 import styled from "styled-components";
 import {
-  PageWrapper,
   MainContent,
   NavigationBox,
 } from "../styled-components/StyledComponents";
@@ -20,6 +19,8 @@ const Home = () => {
   return (
     <>
       <CustomNavbar />
+      <br/>
+      <br/>
       <MainContent>
         <GridLayout>
           <Link to="/users">

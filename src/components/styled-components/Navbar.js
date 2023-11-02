@@ -6,11 +6,31 @@ import logo from "../../assets/thiran.jpg";
 const brightNavLinkStyle = {
   color: "#00bcd4", // Change the color to your desired bright color
   fontWeight: "bold", // Make the text bolder
-  fontSize: "24px", // Adjust the font size as needed
+  fontSize: "28px", // Adjust the font size as needed
 };
+const Sidebar = () => {
+  return (
+    <Nav defaultActiveKey="/adduser" className="flex-column">
+      <Nav.Link as={Link} to="/adduser" style={brightNavLinkStyle}>
+        Add Users
+      </Nav.Link>
+      <Nav.Link as={Link} to="/users" style={brightNavLinkStyle}>
+        Users Table
+      </Nav.Link>
+      <Nav.Link as={Link} to="/addproject" style={brightNavLinkStyle}>
+        Add Projects
+      </Nav.Link>
+      <Nav.Link as={Link} to="/projects" style={brightNavLinkStyle}>
+        Project Table
+      </Nav.Link>
+    </Nav>
+  );
+};
+
 
 const CustomNavbar = () => {
   return (
+    
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand as={Link} to="/">
         <img
@@ -20,7 +40,9 @@ const CustomNavbar = () => {
           className="d-inline-block align-top mr-2"
           alt="Thiran Logo"
         />
-        <span style={brightNavLinkStyle}>Task Management System</span>
+        <span style={{ ...brightNavLinkStyle, fontSize: "34px" }}>
+          Task Management System
+        </span>
       </Navbar.Brand>
       <Nav className="ml-auto">
         <NavDropdown

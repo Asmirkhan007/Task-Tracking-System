@@ -20,6 +20,10 @@
 }
 
 .page-numbers button.pagination-button.active {
-  background-color: #333;
+  background-color:  #0074e4;
   color: #fff;
+}
+.pagination button {
+  background-color: #0074e4; /* Background color for Next and Previous buttons */
+  color: #fff; /* Text color for Next and Previous buttons */
 }

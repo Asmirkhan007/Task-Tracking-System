@@ -63,7 +63,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
   const totalPages = Math.ceil(projects.length / itemsPerPage);
 
   useEffect(() => {
-    const savedPage = localStorage.getItem("currentPage");
+     const savedPage = localStorage.getItem("projectTableCurrentPage");
     if (savedPage) {
       setCurrentPage(parseInt(savedPage, 10));
     }
@@ -74,7 +74,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-      localStorage.setItem("currentPage", pageNumber);
+    localStorage.setItem("projectTableCurrentPage", pageNumber);
   };
 
   return (
@@ -91,48 +91,61 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
               <th>Priority</th>
               <th>Tech Stack</th>
               <th>Users</th>
-              <th>Edit</th>
+              <th>Actions</th>
               <th>Assign Users</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((project, index) => (
-              <tr key={project.id}>
-                <td>{index + 1}</td>
-                <td>{project.name}</td>
-                <td>{project.description}</td>
-                <td>{project.startDate}</td>
-                <td>{project.endDate}</td>
-                <td>{project.priority}</td>
-                <td>{project.techStack}</td>
-                <td>
-                  {project.selectedUsers.length > 0 ? (
-                    project.selectedUsers.map((userId) => {
-                      const user = userData.find((u) => u.id === userId);
-                      return <div key={userId}>{user.name}</div>;
-                    })
-                  ) : (
-                    <div>Yet to be assigned</div>
-                  )}
-                </td>
-                <td>
-                  <Link to={`/editproject/${project.id}`}>
-                    <Button>Edit</Button>
-                  </Link>
-                </td>
-                <td>
-                  <Button onClick={() => openAssignUsersModal(project.id)}>
-                    Assign Users
-                  </Button>
-                </td>
-                <td>
-                  <Button onClick={() => openDeleteModal(project.id)}>
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {currentItems.map((project, index) => {
+              const serialNumber = index + 1 + (currentPage - 1) * itemsPerPage;
+
+              return (
+                <tr key={project.id}>
+                  <td>{serialNumber}</td>
+                  <td>{project.name}</td>
+                  <td>{project.description}</td>
+                  <td>{project.startDate}</td>
+                  <td>{project.endDate}</td>
+                  <td>{project.priority}</td>
+                  <td>{project.techStack}</td>
+                  <td>
+                    {project.selectedUsers.length > 0 ? (
+                      project.selectedUsers.map((userId) => {
+                        const user = userData.find((u) => u.id === userId);
+                        return <div key={userId}>{user.name}</div>;
+                      })
+                    ) : (
+                      <div style={{ color: "red" }}>
+                        Yet to be assigned
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <Link to={`/editproject/${project.id}`}>
+                      <Button>Edit</Button>
+                    </Link>
+                  </td>
+                  <td>
+                    <Button
+                      style={{ backgroundColor: "green", color: "white" }}
+                      className="assign-user"
+                      onClick={() => openAssignUsersModal(project.id)}
+                    >
+                      Add Users
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      style={{ backgroundColor: "red", color: "white" }}
+                      onClick={() => openDeleteModal(project.id)}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <Pagination
@@ -156,7 +169,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
         setSelectedUsers={setSelectedUsers}
         onConfirm={handleAssignUsersConfirm}
         userData={userData}
-  // Pass the function
+        // Pass the function
       />
     </>
   );

@@ -1,24 +1,44 @@
 import React, { useState } from "react";
-import './Pagination.css';
-function Pagination({ currentPage, totalPages, onPageChange }) {
- const [localPage, setLocalPage] = useState(
-   parseInt(localStorage.getItem("currentPage")) || currentPage
- );
+import "./Pagination.css";
+
+function Pagination({ currentPage, totalPages, onPageChange, tableKey }) {
+  const [localPage, setLocalPage] = useState(
+    parseInt(localStorage.getItem(`${tableKey}CurrentPage`)) || currentPage
+  );
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setLocalPage(pageNumber);
       onPageChange(pageNumber);
-      localStorage.setItem("currentPage", pageNumber);
+      localStorage.setItem(`${tableKey}CurrentPage`, pageNumber);
     }
   };
+    const handlePreviousPage = () => {
+      handlePageChange(localPage - 1);
+    };
 
-  const handlePreviousPage = () => {
-    handlePageChange(localPage - 1);
-  };
+    const handleNextPage = () => {
+      handlePageChange(localPage + 1);
+    };
 
-  const handleNextPage = () => {
-    handlePageChange(localPage + 1);
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+      pageNumbers.push(pageNumber);
+    }
+
+    return pageNumbers.map((pageNumber) => (
+      <button
+        key={pageNumber}
+        onClick={() => handlePageChange(pageNumber)}
+        className={`pagination-button ${
+          pageNumber === currentPage ? "active" : ""
+        }`}
+      >
+        {pageNumber}
+      </button>
+    ));
   };
 
   return (
@@ -26,19 +46,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       <button onClick={handlePreviousPage} disabled={localPage === 1}>
         Previous
       </button>
-      <div className="page-numbers">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            className={`pagination-button ${
-              index + 1 === localPage ? "active" : ""
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
+      <div className="page-numbers">{renderPageNumbers()}</div>
       <button onClick={handleNextPage} disabled={localPage === totalPages}>
         Next
       </button>

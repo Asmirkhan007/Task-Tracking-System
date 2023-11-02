@@ -1,4 +1,4 @@
-import { SSRProvider } from "react-bootstrap";
+
 import styled from "styled-components";
 
 export const PageWrapper = styled.div`
@@ -31,14 +31,14 @@ export const NavigationBox = styled.div`
   margin: 0 2%; /* Add margin between the boxes */
 
   .image-box {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 200%;
     margin: 0 auto;
     overflow: hidden;
   }
   .image-box img {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 150%;
+    max-height: 150%;
     object-fit: cover;
   }
 
