@@ -1,0 +1,43 @@
+/* Styles for Navbar Brand (Logo and Text) */
+.navbar-brand .navbar-brand-img {
+  width: 160px;
+  height: 60px;
+  margin-right: 30px;
+}
+
+.navbar-brand .navbar-brand-text {
+  color: #00bcd4;
+  font-weight: bold;
+  font-size: 28px;
+  font-family: "Georgia, serif";
+  text-align: center;
+}
+
+/* Styles for Nav Links and Dropdowns */
+.nav-link {
+  color: #00bcd4;
+  font-weight: bold;
+  font-size: 28px;
+  font-family: "Georgia, serif";
+}
+
+.nav-link:hover {
+  text-decoration: none;
+}
+
+/* Centered Text */
+.centered-text {
+
+  text-align: center;
+  margin: 0 auto;
+}
+.nav-dropdown-item .nav-link {
+  color: #00bcd4 !important;
+  font-weight: bold;
+  font-size: 28px;
+  font-family: "Georgia, serif";
+}
+
+.nav-dropdown-item .nav-link:hover {
+  text-decoration: none;
+}

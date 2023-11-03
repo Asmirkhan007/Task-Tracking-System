@@ -29,12 +29,13 @@ export default function Users() {
   return (
     <>
       <CustomNavbar />
-      <br/>
+      <br />
       <div className="App users-container">
+        
         <div className="header-container">
           <h2 className="users-heading">User Details</h2>
           <Link to="/adduser">
-            <Button className="add-user-button">Add User</Button>
+            <button className="add-user-button">Add User</button>
           </Link>
         </div>
         <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />

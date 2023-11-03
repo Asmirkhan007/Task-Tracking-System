@@ -35,7 +35,7 @@ const AssignUsersModal = ({
           </p>
           <div className="content">
             {userData.length === 0 ? (
-              <p>No data available</p>
+              <p>No data available ! Please add new user</p>
             ) : (
               <>
                 <p>Assign Users to this project:</p>

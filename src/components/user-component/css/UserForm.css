@@ -60,6 +60,8 @@ h1 {
   font-size: 24px;
   margin-bottom: 10px; /* Reduce the margin below the heading */
   text-align: center; /* Center the heading horizontally */
+  font-family: "Georgia, serif";
+  font-weight: bold;
 }
 
 /* CustomNavbar styles (you may need to adjust this based on your component) */

@@ -78,6 +78,14 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
       setCurrentPage(parseInt(savedPage, 10));
     }
   }, []);
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData")) || [];
+    if (userData.length === 0) {
+      alert(
+        "Please note that only placeholder projects are present in the table. You can create new projects to proceed."
+      );
+    }
+  }, []);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
@@ -93,7 +101,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
         <table>
           <thead>
             <tr>
-              <th>Serial Number</th>
+              <th>Sl No.</th>
               <th>Name</th>
               <th>Description</th>
               <th>Start Date</th>
@@ -126,14 +134,15 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                         return <div key={userId}>{user.name}</div>;
                       })
                     ) : (
-                      <div style={{ color: "red" }}>
-                        Yet to be assigned
-                      </div>
+                      <div style={{ color: "red" }}>Yet to be assigned</div>
                     )}
                   </td>
                   <td>
                     <Link to={`/editproject/${project.id}`}>
-                      <Button>Edit</Button>
+                      <Button
+                      >
+                        Edit
+                      </Button>
                     </Link>
                   </td>
                   <td>

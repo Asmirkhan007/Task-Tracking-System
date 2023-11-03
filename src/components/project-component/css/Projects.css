@@ -1,19 +1,20 @@
-/* Users.css */
-.projects-container {
-  position: relative;
+.header-container {
+  display: flex;
+  justify-content: space-between; /* Pushes elements apart, aligning the heading to the center and the button to the right */
+  align-items: center; /* Centers elements vertically */
+  margin-top: 20px; /* Add some top margin for spacing */
 }
 
-/* Users.css (or global styles) */
-.add-project-button-container {
-  display: flex;
-  justify-content: flex-end; /* Align the button to the right */
-  margin-top: 20px; /* Add margin to separate it from the table */
-   margin-right: 30px;
+.projects-heading {
+  flex: 1; /* Allow the heading to expand and take up available space */
+  text-align: center; /* Center the text horizontally */
+  margin: 0; /* Remove default margin to center the text */
+  font-family: "Georgia, serif";
 }
 
 .add-project-button {
-  background-color: #007bff; /* Change the button color */
-  color: #fff; /* Text color */
+  background-color: #5349d6;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   font-weight: bold;
@@ -22,12 +23,4 @@
   text-align: center;
   transition: background-color 0.3s;
   cursor: pointer;
-}
-
-.add-project-button:hover {
-  background-color: #0056b3; /* Change the hover color */
-}
-
-.projects-heading {
-  text-align: center;
 }

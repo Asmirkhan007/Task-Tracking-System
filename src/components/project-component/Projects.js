@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import ProjectTable from "./ProjectTable";
 import "./css/Projects.css";
 import dummyProjects from "./projectArray";
-import Button from "../styled-components/Button";
 
 import CustomNavbar from "../styled-components/Navbar";
 
@@ -31,14 +30,14 @@ export default function Projects() {
   };
 
   return (
-    <>
+   <>
       <CustomNavbar />
+      <br/>
       <div className="App projects-container">
-        <br></br>
-        <h1 className="projects-heading">Project List</h1>
-        <div className="add-project-button-container">
+        <div className="header-container">
+          <h1 className="projects-heading">Project List</h1>
           <Link to="/addproject">
-            <Button className="add-project-button">Add Project</Button>
+            <button className="add-project-button">Add Project</button>
           </Link>
         </div>
         <ProjectTable

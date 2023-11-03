@@ -33,10 +33,18 @@ export default function UserTable({ users, onEdit, onDelete }) {
       setCurrentPage(parseInt(savedPage, 10));
     }
   }, []);
+   useEffect(() => {
+     const userData = JSON.parse(localStorage.getItem("userData")) || [];
+     if (userData.length === 0) {
+       alert(
+         "Please note that only placeholder users are present in the table. You can create new users to proceed."
+       );
+     }
+   }, []);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-     localStorage.setItem("userTableCurrentPage", pageNumber);
+    localStorage.setItem("userTableCurrentPage", pageNumber);
   };
 
   return (
@@ -48,6 +56,7 @@ export default function UserTable({ users, onEdit, onDelete }) {
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Project</th>
             <th>Contact Number</th>
             <th>Years of Experience</th>
             <th>Gender</th>
@@ -56,37 +65,62 @@ export default function UserTable({ users, onEdit, onDelete }) {
           </tr>
         </thead>
         <tbody>
-  {currentItems.map((user, index) => {
-    const serialNumber = index + 1 + (currentPage - 1) * itemsPerPage;
+          {currentItems.map((user, index) => {
+            const serialNumber = index + 1 + (currentPage - 1) * itemsPerPage;
 
-    return (
-      <tr key={user.id}>
-        <td>{serialNumber}</td>
-        <td>{user.name}</td>
-        <td>{user.email}</td>
-        <td>{user.role}</td>
-        <td>{user.number}</td>
-        <td>{user.experience}</td>
-        <td>{user.gender}</td>
-        <td>
-          <Link to={`/edituser/${user.id}`}>
-            <Button>Edit</Button>
-          </Link>
-        </td>
-        <td>
-          <Button onClick={() => openDeleteModal(user.id)}>Delete</Button>
-        </td>
-      </tr>
-    );
-  })}
-</tbody>
-</table>
-      
+            // Check local storage for project details
+            const projectDetails =
+              JSON.parse(localStorage.getItem("projectData")) || [];
+
+            // Find the project assigned to the user, if any
+            const assignedProject = projectDetails.find((project) =>
+              project.selectedUsers.includes(user.id)
+            );
+
+            return (
+              <tr key={user.id}>
+                <td>{serialNumber}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  {assignedProject ? (
+                    assignedProject.name
+                  ) : (
+                    <span style={{ color: "red" }}>Yet to be assigned</span>
+                  )}
+                </td>
+                <td>{user.number}</td>
+                <td>{user.experience}</td>
+                <td>{user.gender}</td>
+                <td>
+                  <Link to={`/edituser/${user.id}`}>
+                    <Button
+                    >
+                      Edit
+                    </Button>
+                  </Link>
+                </td>
+                <td>
+                  <Button
+                    style={{ backgroundColor: "red", color: "white" }}
+                    onClick={() => openDeleteModal(user.id)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
+
       <Modal
         open={openModal}
         onClose={closeDeleteModal}
