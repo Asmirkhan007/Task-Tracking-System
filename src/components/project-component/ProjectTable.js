@@ -1,54 +1,54 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../styled-components/Modal";
 import Button from "../styled-components/Button";
 import Pagination from "../styled-components/Pagination"; // Import the Pagination component
 import AssignUsersModal from "../styled-components/AssignUserModal";
+import './css/ProjectTable.css'
 
 export default function ProjectTable({ projects, onEdit, onDelete }) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
- const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Number of items per page
 
-  
-
+  // Open the delete modal
   const openDeleteModal = (projectId) => {
     setSelectedProjectId(projectId);
     setOpenModal(true);
   };
 
+  // Close the delete modal
   const closeDeleteModal = () => {
     setSelectedProjectId(null);
     setOpenModal(false);
   };
 
+  // Open the assign users modal
   const openAssignUsersModal = (projectId) => {
     const project = projects.find((p) => p.id === projectId);
     setSelectedUsers(project.selectedUsers || []);
     setSelectedProjectId(projectId);
     setAssignUsersModalOpen(true);
-      const userData = JSON.parse(localStorage.getItem("userData")) || [];
-      if (userData.length === 0) {
-        // Display a message if there are no users
-        alert(
-          "Please note that only placeholder users are available. You can create new users to proceed."
-        );
-      } else {
-        setAssignUsersModalOpen(true);
-      }
 
+    const userData = JSON.parse(localStorage.getItem("userData")) || [];
+    if (userData.length === 0) {
+      // Display a message if there are no users
+      alert(
+        "Please note that only placeholder users are available. You can create new users to proceed."
+      );
+    }
   };
 
+  // Close the assign users modal
   const closeAssignUsersModal = () => {
     setSelectedProjectId(null);
     setAssignUsersModalOpen(false);
   };
 
-  
-
+  // Handle the confirmation of assigning users
   const handleAssignUsersConfirm = () => {
     const updatedProjects = projects.map((project) => {
       if (project.id === selectedProjectId) {
@@ -56,7 +56,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
           ...project,
           selectedUsers: selectedUsers,
         };
-      } 
+      }
       return project;
     });
 
@@ -65,19 +65,22 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
 
     closeAssignUsersModal();
 
-     setSelectedUsers(selectedUsers);
+    setSelectedUsers(selectedUsers);
   };
 
   const userData = JSON.parse(localStorage.getItem("userData")) || [];
 
   const totalPages = Math.ceil(projects.length / itemsPerPage);
 
+  // Load the saved page from local storage if available
   useEffect(() => {
-     const savedPage = localStorage.getItem("projectTableCurrentPage");
+    const savedPage = localStorage.getItem("projectTableCurrentPage");
     if (savedPage) {
       setCurrentPage(parseInt(savedPage, 10));
     }
   }, []);
+
+  // Display an alert if there are no users
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData")) || [];
     if (userData.length === 0) {
@@ -86,10 +89,13 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
       );
     }
   }, []);
+
+  // Calculate the index of the last and first item for pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
 
+  // Handle page change for pagination
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     localStorage.setItem("projectTableCurrentPage", pageNumber);
@@ -110,7 +116,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
               <th>Tech Stack</th>
               <th>Users</th>
               <th>Actions</th>
-              <th>Assign Users</th>
+              <th className="assign-users-col">Assign Users</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -139,13 +145,10 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                   </td>
                   <td>
                     <Link to={`/editproject/${project.id}`}>
-                      <Button
-                      >
-                        Edit
-                      </Button>
+                      <Button>Edit</Button>
                     </Link>
                   </td>
-                  <td>
+                  <td className="assign-users-col">
                     <Button
                       style={{ backgroundColor: "green", color: "white" }}
                       className="assign-user"
@@ -188,7 +191,6 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
         setSelectedUsers={setSelectedUsers}
         onConfirm={handleAssignUsersConfirm}
         userData={userData}
-        // Pass the function
       />
     </>
   );

@@ -6,6 +6,8 @@ const userArray = [
     number: "1234567890",
     experience: 5,
     gender: "male",
+    password: "john_password",
+    isLogged: false,
   },
   {
     name: "Jane Smith",
@@ -14,6 +16,8 @@ const userArray = [
     number: "9876543210",
     experience: 3,
     gender: "female",
+    password: "jane_password",
+    isLogged: false,
   },
   {
     name: "Bob Johnson",
@@ -22,6 +26,8 @@ const userArray = [
     number: "5555555555",
     experience: 8,
     gender: "male",
+    password: "bob_password",
+    isLogged: false,
   },
   {
     name: "Alice Brown",
@@ -30,6 +36,8 @@ const userArray = [
     number: "7777777777",
     experience: 2,
     gender: "female",
+    password: "alice_password",
+    isLogged: false,
   },
   {
     name: "Mike Wilson",
@@ -38,6 +46,8 @@ const userArray = [
     number: "9999999999",
     experience: 6,
     gender: "male",
+    password: "mike_password",
+    isLogged: false,
   },
   {
     name: "Emily Davis",
@@ -46,6 +56,8 @@ const userArray = [
     number: "1111111111",
     experience: 4,
     gender: "female",
+    password: "emily_password",
+    isLogged: false,
   },
   {
     name: "Tom Adams",
@@ -54,6 +66,8 @@ const userArray = [
     number: "2222222222",
     experience: 3,
     gender: "male",
+    password: "tom_password",
+    isLogged: false,
   },
   {
     name: "Sarah Clark",
@@ -62,6 +76,8 @@ const userArray = [
     number: "3333333333",
     experience: 2,
     gender: "female",
+    password: "sarah_password",
+    isLogged: false,
   },
   {
     name: "Chris Lee",
@@ -70,6 +86,8 @@ const userArray = [
     number: "4444444444",
     experience: 4,
     gender: "male",
+    password: "chris_password",
+    isLogged: false,
   },
   {
     name: "Linda Turner",
@@ -78,6 +96,8 @@ const userArray = [
     number: "6666666666",
     experience: 1,
     gender: "female",
+    password: "linda_password",
+    isLogged: false,
   },
 ];
 

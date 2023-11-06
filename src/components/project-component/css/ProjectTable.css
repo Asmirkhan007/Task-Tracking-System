@@ -49,6 +49,7 @@ h2 {
     font-size: 20px;
   }
 }
-.assign-user{
-  background-color: green;
+th.assign-users-col,
+td.assign-users-col {
+  width: 11%;
 }

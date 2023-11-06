@@ -9,20 +9,25 @@ import {
 import projectsImage from "../../assets/projects.png";
 import usersImage from "../../assets/users.png";
 
+// Styled-components used for layout styling
 const GridLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px; /* Adjust the gap between boxes as needed */
 `;
 
+// Functional component representing the Home page
 const Home = () => {
   return (
     <>
+      {/* CustomNavbar component used for navigation */}
       <CustomNavbar />
-      <br/>
-      <br/>
+      <br />
+      <br />
       <MainContent>
+        {/* GridLayout with two navigation boxes */}
         <GridLayout>
+          {/* Link to the Users page */}
           <Link to="/users">
             <NavigationBox>
               <div className="image-box">
@@ -32,6 +37,7 @@ const Home = () => {
               <p>Click here to view existing users.</p>
             </NavigationBox>
           </Link>
+          {/* Link to the Projects page */}
           <Link to="/projects">
             <NavigationBox>
               <div className="image-box">
