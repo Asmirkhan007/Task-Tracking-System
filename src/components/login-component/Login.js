@@ -1,22 +1,26 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import dummyProjects from "../project-component/projectArray"
+import dummyProjects from "../project-component/projectArray";
 import userArray from "../user-component/userArray";
 import { v4 as uuidv4 } from "uuid";
 import "./Login.css";
-import login from "../../assets/login.avif"
+import loginImage from "../../assets/login.avif";
 
 const Login = ({ setUserIsLoggedIn }) => {
+  // State to manage form data
   const [formData, setFormData] = React.useState({
     username: "",
     password: "",
     remember: false,
   });
 
-  const [errorMessage, setErrorMessage] = React.useState(""); // State for error message
+  // State to manage error messages
+  const [errorMessage, setErrorMessage] = React.useState("");
 
+  // Get the navigation function from React Router
   const navigate = useNavigate();
-  //  localStorage.setItem("isLoggedIn", false);
+
+  // Function to handle form input changes
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
@@ -26,98 +30,96 @@ const Login = ({ setUserIsLoggedIn }) => {
     });
   };
 
- const handleSubmit = (e) => {
-   e.preventDefault();
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-   const { username, password } = formData;
-   const users = JSON.parse(localStorage.getItem("userData"));
+    // Extract username and password from form data
+    const { username, password } = formData;
 
-   // Convert the input values to lowercase
-   const lowercaseUsername = username.toLowerCase();
+    // Get user data from local storage
+    const users = JSON.parse(localStorage.getItem("userData"));
 
-   const foundUser = users.find(
-     (user) =>
-       (user.name.toLowerCase() === lowercaseUsername ||
-         user.email.toLowerCase() === lowercaseUsername) &&
-       user.password === password
-   );
-   console.log("Found User:", foundUser);
+    // Convert the username to lowercase for case-insensitive comparison
+    const lowercaseUsername = username.toLowerCase();
 
-   if (foundUser) {
-     // Successful login
-     localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
-     navigate("/user/" + foundUser.id); // Redirect to the user's profile page
-   }
-   // Check if the entered credentials match the admin credentials
-   else if (
-     (lowercaseUsername === "admin" ||
-       lowercaseUsername === "admin@thirantech.com") &&
-     password === "pass1234"
-   ) {
-     // Successful login
-     localStorage.setItem("isLoggedIn", JSON.stringify("adminIsTrue")); // Store login status in localStorage
-     setUserIsLoggedIn("adminIsTrue");
+    // Find the user with the provided username and matching password
+    const foundUser = users.find(
+      (user) =>
+        (user.name.toLowerCase() === lowercaseUsername ||
+          user.email.toLowerCase() === lowercaseUsername) &&
+        user.password === password
+    );
 
-     navigate("/"); // Redirect to the home page or any other authorized route
-   } else {
-     // Failed login
-     setErrorMessage("Invalid username or password");
-   }
-   // Clear the form fields
-   setFormData({
-     password: "",
-     remember: false,
-   });
- };
+    if (foundUser) {
+      // If a user is found, store it in local storage and navigate to the user's page
+      localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+      navigate("/user/" + foundUser.id);
+    } else if (
+      // Check for an admin login
+      (lowercaseUsername === "admin" ||
+        lowercaseUsername === "admin@thirantech.com") &&
+      password === "pass1234"
+    ) {
+      // Store the admin login status in local storage and update the user login status
+      localStorage.setItem("isLoggedIn", JSON.stringify("adminIsTrue"));
+      setUserIsLoggedIn("adminIsTrue");
+      navigate("/");
+    } else {
+      // If no matching user or admin login, show an error message
+      setErrorMessage("Invalid username or password");
+    }
 
+    // Clear the password and remember flag in the form data
+    setFormData({
+      password: "",
+      remember: false,
+    });
+  };
 
+  // Use useEffect to initialize project data if it doesn't exist in local storage
   useEffect(() => {
     const projectData = JSON.parse(localStorage.getItem("projectData"));
 
-    if (projectData) {
-    } else {
-      // If no data is found in local storage, set the default data and generate a UUID for the id field.
+    if (!projectData) {
+      // If project data is missing, create default projects with UUIDs
       const projectsWithUUIDs = dummyProjects.map((project) => ({
         ...project,
-        id: uuidv4(), // Generate a unique UUID for each project
+        id: uuidv4(),
       }));
 
+      // Store the default project data in local storage
       localStorage.setItem("projectData", JSON.stringify(projectsWithUUIDs));
       console.log("Using Default Project Data:", projectsWithUUIDs);
     }
   }, []);
-   useEffect(() => {
-     const storedUsers = JSON.parse(localStorage.getItem("userData"));
 
-     if (storedUsers) {
-       
-     } else {
-       // If user data doesn't exist in local storage, add unique IDs to userArray and store it
-       const usersWithIds = userArray.map((user) => ({
-         ...user,
-         id: uuidv4(), // Generate a unique ID for each user
-       }));
+  // Use useEffect to initialize user data if it doesn't exist in local storage
+  useEffect(() => {
+    const storedUsers = JSON.parse(localStorage.getItem("userData"));
 
-       // Store the updated data with IDs in local storage
-       localStorage.setItem("userData", JSON.stringify(usersWithIds));
-     }
-   }, []);
+    if (!storedUsers) {
+      // If user data is missing, create default users with UUIDs
+      const usersWithIds = userArray.map((user) => ({
+        ...user,
+        id: uuidv4(),
+      }));
+
+      // Store the default user data in local storage
+      localStorage.setItem("userData", JSON.stringify(usersWithIds));
+    }
+  }, []);
 
   return (
     <div className="login-page">
       <div className="login-box">
         <div className="illustration-wrapper">
-          <img
-            src = {login}
-            alt= "Login"
-          />
+          <img src={loginImage} alt="Login" />
         </div>
         <form name="login-form" onSubmit={handleSubmit} id="login-form">
           <p className="form-title">Welcome back</p>
           <p>Login to the Dashboard</p>
-          {errorMessage && (
-            <div className="error-message">{errorMessage}</div> // Display error message
-          )}
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="form-item">
             <label htmlFor="username">Username or Email Id</label>
             <input
@@ -140,8 +142,7 @@ const Login = ({ setUserIsLoggedIn }) => {
               required
             />
           </div>
-        
-          <br/>
+          <br />
           <div className="form-item">
             <button type="submit" className="login-form-button">
               LOGIN

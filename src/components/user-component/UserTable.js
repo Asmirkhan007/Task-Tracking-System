@@ -7,34 +7,45 @@ import Button from "../styled-components/Button";
 import Pagination from "../styled-components/Pagination";
 
 export default function UserTable({ users, onEdit, onDelete }) {
+  // State to manage the delete confirmation modal
   const [openModal, setOpenModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+
+  // State to manage the current page of the table
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Number of items per page
 
+  // Function to open the delete confirmation modal
   const openDeleteModal = (userId) => {
     setSelectedUserId(userId);
     setOpenModal(true);
   };
 
+  // Function to close the delete confirmation modal
   const closeDeleteModal = () => {
     setSelectedUserId(null);
     setOpenModal(false);
   };
 
+  // Calculate the total number of pages for pagination
   const totalPages = Math.ceil(users.length / itemsPerPage);
+
+  // Calculate the index of the last and first item on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // Get the items to display on the current page
   const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
 
+  // Use effect to retrieve the current page from local storage
   useEffect(() => {
     const savedPage = localStorage.getItem("userTableCurrentPage");
     if (savedPage) {
       setCurrentPage(parseInt(savedPage, 10));
     }
   }, []);
- 
 
+  // Function to handle page changes and update the current page in local storage
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     localStorage.setItem("userTableCurrentPage", pageNumber);
@@ -66,12 +77,10 @@ export default function UserTable({ users, onEdit, onDelete }) {
               JSON.parse(localStorage.getItem("projectData")) || [];
 
             // Find the project assigned to the user, if any
-           const assignedProjects = projectData.filter((project) =>
-             project.selectedUsers.includes(user.id)
-           );
+            const assignedProjects = projectData.filter((project) =>
+              project.selectedUsers.includes(user.id)
+            );
 
-            // const assignDetails = assignedProject.map((p) => (p.name));
-            // console.log(assignDetails)
             return (
               <tr key={user.id}>
                 <td>{serialNumber}</td>

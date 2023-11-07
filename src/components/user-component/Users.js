@@ -6,29 +6,28 @@ import userArray from "./userArray";
 import CustomNavbar from "../styled-components/Navbar";
 import { v4 as uuidv4 } from "uuid";
 
-export default function Users() {
+const Users = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user data exists in local storage
     const storedUsers = JSON.parse(localStorage.getItem("userData"));
 
     if (storedUsers) {
-      // If user data exists, use it
       setUsers(storedUsers);
     } else {
-      // If user data doesn't exist in local storage, add unique IDs to userArray and store it
+      // Set default data if no data is found in local storage
       const usersWithIds = userArray.map((user) => ({
         ...user,
-        id: uuidv4(), // Generate a unique ID for each user
+        id: uuidv4(),
       }));
-
       setUsers(usersWithIds);
-
-      // Store the updated data with IDs in local storage
       localStorage.setItem("userData", JSON.stringify(usersWithIds));
     }
+
+    setLoading(false);
   }, []);
+
   const editUser = (id, data) => {
     const updatedUsers = users.map((user) => (user.id === id ? data : user));
     setUsers(updatedUsers);
@@ -41,19 +40,25 @@ export default function Users() {
     localStorage.setItem("userData", JSON.stringify(updatedUsers));
   };
 
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator while fetching data
+  }
+
   return (
     <>
       <CustomNavbar />
       <br />
       <div className="App users-container">
-        <div className="header-container">
+        <header className="header-container">
           <h2 className="users-heading">User Details</h2>
           <Link to="/adduser">
             <button className="add-user-button">Add User</button>
           </Link>
-        </div>
+        </header>
         <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
       </div>
     </>
   );
-}
+};
+
+export default Users;

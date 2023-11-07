@@ -7,8 +7,11 @@ import CustomNavbar from "../styled-components/Navbar";
 import "./css/UserForm.css";
 
 export default function UserForm() {
+  // Get the user ID from the URL params
   const { id } = useParams();
   const navigate = useNavigate();
+
+  // Form handling using react-hook-form
   const {
     register,
     handleSubmit,
@@ -16,6 +19,7 @@ export default function UserForm() {
     reset,
   } = useForm();
 
+  // Use useEffect to prefill form data when editing a user
   useEffect(() => {
     if (id) {
       const item = localStorage.getItem("userData");
@@ -29,14 +33,19 @@ export default function UserForm() {
     }
   }, [id, reset]);
 
+  // Form submission handler
   const onSubmit = (data) => {
+    // Get existing user data or an empty array
     const existingUserData = JSON.parse(localStorage.getItem("userData")) || [];
+
     if (id) {
+      // Update an existing user if editing
       const updatedUserData = existingUserData.map((user) =>
         user.id === id ? { ...user, ...data } : user
       );
       localStorage.setItem("userData", JSON.stringify(updatedUserData));
     } else {
+      // Create a new user if not editing
       const newUser = {
         ...data,
         id: uuidv4(),
@@ -46,10 +55,13 @@ export default function UserForm() {
       const updatedUserData = [...existingUserData, newUser];
       localStorage.setItem("userData", JSON.stringify(updatedUserData));
     }
+
+    // Reset the form and navigate to the users page
     reset();
     navigate("/users");
   };
 
+  // Display error messages for form fields
   const displayError = (fieldName) => {
     return errors[fieldName] ? (
       <p className="error-message">{errors[fieldName].message}</p>
@@ -63,9 +75,10 @@ export default function UserForm() {
       <h1>{id ? "Edit User" : "Add New User"}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-element">
-          <label>Name</label>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
+            id="name"
             name="name"
             placeholder="Enter your name"
             {...register("name", { required: "Name is required" })}
@@ -137,6 +150,7 @@ export default function UserForm() {
             name="experience"
             placeholder="Enter your years of experience"
             {...register("experience", { value: 0 })} // Set default value to 0
+            defaultValue={0}
           />
         </div>
         <div className="form-element">

@@ -9,70 +9,73 @@ import Login from "./components/login-component/Login";
 import SingleUserPage from "./components/display-component/SingleUserPage";
 
 function App() {
-  //const userCheck = localStorage.getItem("isLoggedIn") === "true";
-  const currLogIn = JSON.parse(localStorage.getItem("isLoggedIn"));
-  const [userIsLoggedIn, setUserIsLoggedIn] = useState(currLogIn);
+  // State to manage user login status
+   const currentLogInStatus = JSON.parse(localStorage.getItem("isLoggedIn"));
+  const [userIsLoggedIn, setUserIsLoggedIn] = useState(currentLogInStatus);
 
-  const userCheck = userIsLoggedIn === "adminIsTrue";
-  useEffect(() => {
-    getIsLoggedIn();
-    console.log(userCheck)
-  }, [])
-  
-  const getIsLoggedIn=()=>{
-   
-    let isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn && (isLoggedIn!=="undefined")) {
-      let temp=JSON.parse(isLoggedIn);
+  // Function to retrieve user login status from local storage
+  const getIsLoggedIn = () => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn && isLoggedIn !== "undefined") {
+      const temp = JSON.parse(isLoggedIn);
       setUserIsLoggedIn(temp);
     } else {
-      localStorage.setItem("isLoggedIn", JSON.stringify("adminIsFalse"));
-      setUserIsLoggedIn("adminIsFalse");
+      localStorage.setItem("isLoggedIn", JSON.stringify(false));
+      setUserIsLoggedIn(false);
     }
-  }
+  };
+
+  // Use useEffect to initialize user login status
+  useEffect(() => {
+    getIsLoggedIn();
+  }, []);
 
   return (
     <Routes>
       <Route
         path="/"
-        element={userCheck ? <Home /> : <Navigate to="/login" />}
+        // Render the Home component if the user is logged in; otherwise, navigate to the login page
+        element={userIsLoggedIn ? <Home /> : <Navigate to="/login" />}
       />
-
       <Route
         path="/users"
-        element={userCheck ? <Users /> : <Navigate to="/login" />}
+        // Render the Users component if the user is logged in; otherwise, navigate to the login page
+        element={userIsLoggedIn ? <Users /> : <Navigate to="/login" />}
       />
       <Route
         path="/projects"
-        element={userCheck ? <Projects /> : <Navigate to="/login" />}
+        // Render the Projects component if the user is logged in; otherwise, navigate to the login page
+        element={userIsLoggedIn ? <Projects /> : <Navigate to="/login" />}
       />
       <Route
         path="/adduser"
-        element={userCheck ? <UserForm /> : <Navigate to="/login" />}
+        // Render the UserForm component to add a new user if the user is logged in; otherwise, navigate to the login page
+        element={userIsLoggedIn ? <UserForm /> : <Navigate to="/login" />}
       />
       <Route
         path="/addproject"
-        element={userCheck ? <ProjectForm /> : <Navigate to="/login" />}
+        // Render the ProjectForm component to add a new project if the user is logged in; otherwise, navigate to the login page
+        element={userIsLoggedIn ? <ProjectForm /> : <Navigate to="/login" />}
       />
       <Route
         path="/edituser/:id"
-        element={userCheck ? <UserForm /> : <Navigate to="/login" />}
+        // Render the UserForm component to edit a user if the user is logged in; otherwise, navigate to the login page
+        element={userIsLoggedIn ? <UserForm /> : <Navigate to="/login" />}
       />
       <Route
         path="/user/:id"
-        element={ <SingleUserPage /> }
+        // Render the SingleUserPage component to display a single user's information
+        element={<SingleUserPage />}
       />
       <Route
         path="/editproject/:id"
-        element={userCheck ? <ProjectForm /> : <Navigate to="/login" />}
+        // Render the ProjectForm component to edit a project if the user is logged in; otherwise, navigate to the login page
+        element={userIsLoggedIn ? <ProjectForm /> : <Navigate to="/login" />}
       />
       <Route
         path="/login"
-        element={
-         
-            <Login setUserIsLoggedIn={setUserIsLoggedIn} />
-    
-        }
+        // Render the Login component and pass the setUserIsLoggedIn function to handle login status
+        element={<Login setUserIsLoggedIn={setUserIsLoggedIn} />}
       />
     </Routes>
   );

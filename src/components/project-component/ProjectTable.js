@@ -2,54 +2,63 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../styled-components/Modal";
 import Button from "../styled-components/Button";
-import Pagination from "../styled-components/Pagination"; // Import the Pagination component
+import Pagination from "../styled-components/Pagination";
 import AssignUsersModal from "../styled-components/AssignUserModal";
-import './css/ProjectTable.css'
+import "./css/ProjectTable.css";
 
 export default function ProjectTable({ projects, onEdit, onDelete }) {
+  // State to manage the delete confirmation modal
   const [openModal, setOpenModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
+
+  // State to manage the assign users modal
   const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
+
+  // State to manage the current page of the table
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Number of items per page
 
-  // Open the delete modal
+  // Function to open the delete confirmation modal
   const openDeleteModal = (projectId) => {
     setSelectedProjectId(projectId);
     setOpenModal(true);
   };
 
-  // Close the delete modal
+  // Function to close the delete confirmation modal
   const closeDeleteModal = () => {
     setSelectedProjectId(null);
     setOpenModal(false);
   };
 
-  // Open the assign users modal
+  // Function to open the assign users modal
   const openAssignUsersModal = (projectId) => {
+    // Find the project with the selected ID
     const project = projects.find((p) => p.id === projectId);
+
+    // Set the selected users and project ID for assign users modal
     setSelectedUsers(project.selectedUsers || []);
     setSelectedProjectId(projectId);
     setAssignUsersModalOpen(true);
 
+    // Retrieve user data from local storage
     const userData = JSON.parse(localStorage.getItem("userData")) || [];
+
+    // Provide a message if no users are available
     if (userData.length === 0) {
-      // Display a message if there are no users
-      alert(
-        "Please note that no users are available. You can add new users."
-      );
+      alert("Please note that no users are available. You can add new users.");
     }
   };
 
-  // Close the assign users modal
+  // Function to close the assign users modal
   const closeAssignUsersModal = () => {
     setSelectedProjectId(null);
     setAssignUsersModalOpen(false);
   };
 
-  // Handle the confirmation of assigning users
+  // Function to handle the confirmation of user assignment to a project
   const handleAssignUsersConfirm = () => {
+    // Update the projects with the selected users
     const updatedProjects = projects.map((project) => {
       if (project.id === selectedProjectId) {
         return {
@@ -60,13 +69,12 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
       return project;
     });
 
-    // Update local storage or your data management logic here
+    // Save the updated project data to local storage
     localStorage.setItem("projectData", JSON.stringify(updatedProjects));
 
-    // Set the project ID in the userData for the selected users
+    // Update user data with project assignments
     const updatedUserData = userData.map((user) => {
       if (selectedUsers.includes(user.id)) {
-        // Add the project ID to the user's projects array
         const userProjects = user.projects || [];
         if (!userProjects.includes(selectedProjectId)) {
           userProjects.push(selectedProjectId);
@@ -79,19 +87,18 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
       return user;
     });
 
-    // Update the userData in local storage
+    // Save the updated user data to local storage
     localStorage.setItem("userData", JSON.stringify(updatedUserData));
 
+    // Close the assign users modal
     closeAssignUsersModal();
-
-    setSelectedUsers(selectedUsers);
   };
 
+  // Retrieve user data from local storage or provide an alert message
   const userData = JSON.parse(localStorage.getItem("userData")) || [];
-
   const totalPages = Math.ceil(projects.length / itemsPerPage);
 
-  // Load the saved page from local storage if available
+  // Use useEffect to restore the current page from localStorage
   useEffect(() => {
     const savedPage = localStorage.getItem("projectTableCurrentPage");
     if (savedPage) {
@@ -99,7 +106,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     }
   }, []);
 
-  // Display an alert if there are no users
+  // Use useEffect to provide a message if no users are available
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData")) || [];
     if (userData.length === 0) {
@@ -109,18 +116,21 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     }
   }, []);
 
-  // Calculate the index of the last and first item for pagination
+  // Calculate the index of the last and first item on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // Get the items to display on the current page
   const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Handle page change for pagination
+  // Function to handle page changes and update the current page in local storage
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     localStorage.setItem("projectTableCurrentPage", pageNumber);
   };
-  console.log(currentItems.length)
-  if (projects.length === 0 || projects === 'undefined') {
+
+  // Render a message if no projects are available
+  if (projects.length === 0 || typeof projects === "undefined") {
     return (
       <div className="table-container">
         <p>No projects found. You can create new projects to proceed.</p>
@@ -150,7 +160,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
           <tbody>
             {currentItems.map((project, index) => {
               const serialNumber = index + 1 + (currentPage - 1) * itemsPerPage;
-              console.log("user", userData)
+
               return (
                 <tr key={project.id}>
                   <td>{serialNumber}</td>

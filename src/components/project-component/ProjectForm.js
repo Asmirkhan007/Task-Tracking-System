@@ -7,10 +7,14 @@ import "./css/ProjectForm.css";
 import CustomNavbar from "../styled-components/Navbar";
 
 export default function ProjectForm() {
-  // Get the "id" parameter from the URL using react-router
+  // Get the project ID from the URL params
   const { id } = useParams();
   const navigate = useNavigate();
-  const [selectedUsers, setSelectedUsers] = useState([]); // State to store selected users
+
+  // State for selected users
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  // Form handling using react-hook-form
   const {
     register,
     handleSubmit,
@@ -18,42 +22,45 @@ export default function ProjectForm() {
     reset,
   } = useForm();
 
-  // Load existing project data if in edit mode
+  // Use useEffect to prefill form data when editing a project
   useEffect(() => {
     if (id) {
       const item = localStorage.getItem("projectData");
-      console.log(item);
       if (item) {
-    
         const projectData = JSON.parse(item);
-        const projectToEdit = projectData.find((project) => project.id == id);
+        const projectToEdit = projectData.find((project) => project.id === id);
         if (projectToEdit) {
+          // Reset the form with project data and set selected users
           reset(projectToEdit);
-          setSelectedUsers(projectToEdit.selectedUsers || []); // Load selected users if available
+          setSelectedUsers(projectToEdit.selectedUsers || []);
         }
       }
     }
   }, [id, reset]);
 
-  // Load user data from localStorage or an empty array
+  // Get user data from localStorage
   const userData = JSON.parse(localStorage.getItem("userData")) || [];
 
   // Form submission handler
   const onSubmit = (data) => {
+    // Get existing project data or an empty array
     const existingProjectData =
       JSON.parse(localStorage.getItem("projectData")) || [];
+
     if (id) {
-      // Update an existing project
+      // Update an existing project if editing
       const updatedProjectData = existingProjectData.map((project) =>
         project.id === id ? { ...project, ...data, selectedUsers } : project
       );
       localStorage.setItem("projectData", JSON.stringify(updatedProjectData));
     } else {
-      // Create a new project
+      // Create a new project if not editing
       const newProject = { ...data, id: uuidv4(), selectedUsers };
       const updatedProjectData = [...existingProjectData, newProject];
       localStorage.setItem("projectData", JSON.stringify(updatedProjectData));
     }
+
+    // Reset the form and navigate to the projects page
     reset();
     navigate("/projects");
   };
@@ -64,21 +71,21 @@ export default function ProjectForm() {
       e.target.selectedOptions,
       (option) => option.value
     );
-    console.log("Selected User IDs:", selectedUserIds);
     setSelectedUsers(selectedUserIds);
   };
 
-  // Display error message for a form field
+  // Display error messages for form fields
   const displayError = (fieldName) => {
     return errors[fieldName] ? (
       <p className="error-message">{errors[fieldName].message}</p>
     ) : null;
   };
+
+  // CSS class for selected user tags
   const selectedUserTagClass = "selected-user-tag";
 
   return (
     <>
-      {/* Custom Navbar component */}
       <CustomNavbar />
       <br />
       <h1>{id ? "Edit Project" : "Add New Project"}</h1>
@@ -163,7 +170,6 @@ export default function ProjectForm() {
           {displayError("selectedUsers")}
         </div>
 
-        {/* Display selected users as tags with CSS */}
         <div className="form-element">
           <label>Selected Users:</label>
           <div className="selected-users-tags">

@@ -3,11 +3,11 @@ import "./SingleUserPage.css";
 import Logout from "../login-component/Logout";
 
 export default function SingleUserPage() {
-  // Get the logged-in user and project data from localStorage
+  // Retrieve the logged-in user and project data from localStorage
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const projectData = JSON.parse(localStorage.getItem("projectData")) || [];
 
-  // Function to get project details based on user's assigned project IDs
+  // Function to filter and get project details based on the user's assigned project IDs
   const getUserProjects = () => {
     if (loggedInUser && loggedInUser.projects) {
       return projectData.filter((project) =>
@@ -17,8 +17,10 @@ export default function SingleUserPage() {
     return [];
   };
 
+  // Call the function to get user's assigned projects
   const userProjects = getUserProjects();
 
+  // Render the user profile and assigned projects
   return (
     <div>
       <div className="container">
