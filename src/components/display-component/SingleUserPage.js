@@ -2,7 +2,8 @@ import React from "react";
 import "./SingleUserPage.css";
 import Logout from "../login-component/Logout";
 
-export default function SingleUserPage({ user }) {
+export default function SingleUserPage() {
+  // Get the logged-in user and project data from localStorage
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const projectData = JSON.parse(localStorage.getItem("projectData")) || [];
 
@@ -20,7 +21,6 @@ export default function SingleUserPage({ user }) {
 
   return (
     <div>
-      <br />
       <div className="container">
         <h1 className="heading">User Profile Page</h1>
         <Logout />
@@ -58,13 +58,11 @@ export default function SingleUserPage({ user }) {
               </ul>
             </>
           ) : (
-            <p style={{color: "red" }}>
-              Project yet to be assigned
-            </p>
+            <p className="project-info">Project yet to be assigned</p>
           )}
         </div>
       ) : (
-        <p style={{ color: "red" }}>No user data available. Please log in.</p>
+        <p className="project-info">No user data available. Please log in.</p>
       )}
     </div>
   );

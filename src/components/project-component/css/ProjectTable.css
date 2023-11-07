@@ -53,3 +53,14 @@ th.assign-users-col,
 td.assign-users-col {
   width: 11%;
 }
+.assign-user{
+  background-color: green;
+  color: white
+}
+.delete-data{
+  background-color: red;
+  color: white
+}
+.user-info {
+  color: red;
+}

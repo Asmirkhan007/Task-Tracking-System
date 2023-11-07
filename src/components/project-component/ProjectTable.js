@@ -37,7 +37,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     if (userData.length === 0) {
       // Display a message if there are no users
       alert(
-        "Please note that only placeholder users are available. You can create new users to proceed."
+        "Please note that no users are available. You can add new users."
       );
     }
   };
@@ -119,6 +119,14 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     setCurrentPage(pageNumber);
     localStorage.setItem("projectTableCurrentPage", pageNumber);
   };
+  console.log(currentItems.length)
+  if (projects.length === 0 || projects === 'undefined') {
+    return (
+      <div className="table-container">
+        <p>No projects found. You can create new projects to proceed.</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -142,7 +150,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
           <tbody>
             {currentItems.map((project, index) => {
               const serialNumber = index + 1 + (currentPage - 1) * itemsPerPage;
-
+              console.log("user", userData)
               return (
                 <tr key={project.id}>
                   <td>{serialNumber}</td>
@@ -153,13 +161,18 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                   <td>{project.priority}</td>
                   <td>{project.techStack}</td>
                   <td>
-                    {project.selectedUsers.length > 0 ? (
+                    {project.selectedUsers.length > 0 && userData.length > 0 ? (
                       project.selectedUsers.map((userId) => {
                         const user = userData.find((u) => u.id === userId);
-                        return <div key={userId}>{user.name}</div>;
+                        if (user) return <div key={userId}>{user.name}</div>;
+                        else {
+                          return (
+                            <div className="user-info">Yet to be assigned</div>
+                          );
+                        }
                       })
                     ) : (
-                      <div style={{ color: "red" }}>Yet to be assigned</div>
+                      <div className="user-info">Yet to be assigned</div>
                     )}
                   </td>
                   <td>
@@ -168,21 +181,20 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                     </Link>
                   </td>
                   <td className="assign-users-col">
-                    <Button
-                      style={{ backgroundColor: "green", color: "white" }}
+                    <button
                       className="assign-user"
                       onClick={() => openAssignUsersModal(project.id)}
                     >
                       Add Users
-                    </Button>
+                    </button>
                   </td>
                   <td>
-                    <Button
-                      style={{ backgroundColor: "red", color: "white" }}
+                    <button
+                      className="delete-data"
                       onClick={() => openDeleteModal(project.id)}
                     >
                       Delete
-                    </Button>
+                    </button>
                   </td>
                 </tr>
               );

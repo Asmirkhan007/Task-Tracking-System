@@ -53,3 +53,10 @@ tr:hover {
     font-size: 20px;
   }
 }
+.delete-data{
+  background-color: red;
+  color: white
+}
+.user-info {
+  color: red;
+}

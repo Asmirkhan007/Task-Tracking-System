@@ -26,36 +26,51 @@ const Login = ({ setUserIsLoggedIn }) => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = (e) => {
+   e.preventDefault();
 
-    const { username, password } = formData;
-    const users = JSON.parse(localStorage.getItem("userData"));
-   console.log("Users in localStorage:", users);
-   console.log("Username:", username);
-   console.log("Password:", password);
+   const { username, password } = formData;
+   const users = JSON.parse(localStorage.getItem("userData"));
+
+   // Convert the input values to lowercase
+   const lowercaseUsername = username.toLowerCase();
 
    const foundUser = users.find(
-     (user) => user.name === username && user.password === password
+     (user) =>
+       (user.name.toLowerCase() === lowercaseUsername ||
+         user.email.toLowerCase() === lowercaseUsername) &&
+       user.password === password
    );
    console.log("Found User:", foundUser);
-      if (foundUser) {
-        // Successful login
-        localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
-        navigate("/user/" + foundUser.id); // Redirect to the user's profile page
-      }
-    // Check if the entered credentials match the admin credentials
-    else if (username === "Admin" && password === "pass1234") {
-      // Successful login
-      localStorage.setItem("isLoggedIn", JSON.stringify("adminIsTrue")); // Store login status in localStorage
-      setUserIsLoggedIn("adminIsTrue");
 
-      navigate("/"); // Redirect to the home page or any other authorized route
-    } else {
-      // Failed login
-      setErrorMessage("Invalid username or password");
-    }
-  };
+   if (foundUser) {
+     // Successful login
+     localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+     navigate("/user/" + foundUser.id); // Redirect to the user's profile page
+   }
+   // Check if the entered credentials match the admin credentials
+   else if (
+     (lowercaseUsername === "admin" ||
+       lowercaseUsername === "admin@thirantech.com") &&
+     password === "pass1234"
+   ) {
+     // Successful login
+     localStorage.setItem("isLoggedIn", JSON.stringify("adminIsTrue")); // Store login status in localStorage
+     setUserIsLoggedIn("adminIsTrue");
+
+     navigate("/"); // Redirect to the home page or any other authorized route
+   } else {
+     // Failed login
+     setErrorMessage("Invalid username or password");
+   }
+   // Clear the form fields
+   setFormData({
+     password: "",
+     remember: false,
+   });
+ };
+
+
   useEffect(() => {
     const projectData = JSON.parse(localStorage.getItem("projectData"));
 
@@ -104,7 +119,7 @@ const Login = ({ setUserIsLoggedIn }) => {
             <div className="error-message">{errorMessage}</div> // Display error message
           )}
           <div className="form-item">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Username or Email Id</label>
             <input
               type="text"
               name="username"

@@ -33,14 +33,7 @@ export default function UserTable({ users, onEdit, onDelete }) {
       setCurrentPage(parseInt(savedPage, 10));
     }
   }, []);
-   useEffect(() => {
-     const userData = JSON.parse(localStorage.getItem("userData")) || [];
-     if (userData.length === 0) {
-       alert(
-         "Please note that only placeholder users are present in the table. You can create new users to proceed."
-       );
-     }
-   }, []);
+ 
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -93,7 +86,7 @@ export default function UserTable({ users, onEdit, onDelete }) {
                       ))}
                     </ul>
                   ) : (
-                    <span style={{ color: "red" }}>Yet to be assigned</span>
+                    <span className="user-info">Yet to be assigned</span>
                   )}
                 </td>
                 <td>{user.number}</td>
@@ -105,12 +98,12 @@ export default function UserTable({ users, onEdit, onDelete }) {
                   </Link>
                 </td>
                 <td>
-                  <Button
-                    style={{ backgroundColor: "red", color: "white" }}
+                  <button
+                    className="delete-data"
                     onClick={() => openDeleteModal(user.id)}
                   >
                     Delete
-                  </Button>
+                  </button>
                 </td>
               </tr>
             );

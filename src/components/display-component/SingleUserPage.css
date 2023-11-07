@@ -47,3 +47,7 @@ strong {
 .button {
   margin-left: 20px;
 }
+
+.project-info{
+  color: red;
+}
