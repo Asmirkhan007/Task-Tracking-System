@@ -1,0 +1,29 @@
+/* Add margin and change the color of the numbers */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.page-numbers {
+  display: flex;
+  align-items: center;
+}
+
+.page-numbers button.pagination-button {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  margin: 0 5px; /* Add margin to create spacing between buttons */
+  color: #333; /* Change the color of the numbers */
+}
+
+.page-numbers button.pagination-button.active {
+  background-color:  #5349d6;
+  color: #fff;
+}
+.pagination button {
+  background-color: #28b5df; /* Background color for Next and Previous buttons */
+  color: #fff; /* Text color for Next and Previous buttons */
+}

@@ -1,0 +1,53 @@
+/* Add your custom styles here */
+.single-user-container {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  background-color: #f5f5f5;
+}
+
+h1 {
+  color: #333;
+  font-size: 24px;
+}
+
+h2 {
+  color: #555;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+strong {
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading {
+  flex: 1;
+  text-align: center;
+}
+
+.button {
+  margin-left: 20px;
+}
+
+.project-info{
+  color: red;
+}

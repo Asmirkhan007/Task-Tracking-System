@@ -1,0 +1,86 @@
+/* Container for the form */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form element styles */
+.form-element {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Error message styles */
+.error-message {
+  color: #ff0000;
+  font-size: 12px;
+}
+
+/* Radio button styles */
+/* These styles have been removed since they are not necessary for this layout. */
+
+/* Button styles */
+Button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+/* Cancel button styles */
+Button.secondary {
+  background-color: #ccc;
+}
+
+/* Page title styles */
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px; /* Reduce the margin below the heading */
+  text-align: center; /* Center the heading horizontally */
+  font-family: "Georgia, serif";
+  font-weight: bold;
+}
+
+/* CustomNavbar styles (you may need to adjust this based on your component) */
+.CustomNavbar {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+}
+
+/* Link styles */
+Link {
+  text-decoration: none;
+}
+
+/* Adjust the spacing between radio buttons and labels */
+.inline-radio {
+  display: flex;
+}
+
+.inline-radio div {
+  margin-right: 20px; /* Adjust the margin between radio button groups as needed */
+}
