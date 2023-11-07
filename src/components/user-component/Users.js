@@ -3,17 +3,32 @@ import { Link } from "react-router-dom";
 import UserTable from "./UserTable";
 import "./css/Users.css";
 import userArray from "./userArray";
-import Button from "../styled-components/Button";
 import CustomNavbar from "../styled-components/Navbar";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const userList = JSON.parse(localStorage.getItem("userData")) || userArray;
-    setUsers(userList);
-  }, []);
+    // Check if user data exists in local storage
+    const storedUsers = JSON.parse(localStorage.getItem("userData"));
 
+    if (storedUsers) {
+      // If user data exists, use it
+      setUsers(storedUsers);
+    } else {
+      // If user data doesn't exist in local storage, add unique IDs to userArray and store it
+      const usersWithIds = userArray.map((user) => ({
+        ...user,
+        id: uuidv4(), // Generate a unique ID for each user
+      }));
+
+      setUsers(usersWithIds);
+
+      // Store the updated data with IDs in local storage
+      localStorage.setItem("userData", JSON.stringify(usersWithIds));
+    }
+  }, []);
   const editUser = (id, data) => {
     const updatedUsers = users.map((user) => (user.id === id ? data : user));
     setUsers(updatedUsers);
@@ -31,7 +46,6 @@ export default function Users() {
       <CustomNavbar />
       <br />
       <div className="App users-container">
-        
         <div className="header-container">
           <h2 className="users-heading">User Details</h2>
           <Link to="/adduser">

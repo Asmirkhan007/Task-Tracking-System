@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import logo from "../../assets/thiran.jpg";
 import "./Navbar.css"; // Import the CSS file
+import Logout from "../login-component/Logout";
+
 
 const CustomNavbar = () => {
   return (
@@ -43,6 +45,7 @@ const CustomNavbar = () => {
           </NavDropdown.Item>
         </NavDropdown>
       </Nav>
+      <Logout />
     </Navbar>
   );
 };

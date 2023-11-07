@@ -1,8 +1,7 @@
 const dummyProjects = [
   {
-    id: 1,
-    name: "Project 1",
-    description: "Description of Project 1",
+    name: "E-commerce Website",
+    description: "Develop an e-commerce website with online shopping features.",
     startDate: "2023-01-01",
     endDate: "2023-02-01",
     priority: "High",
@@ -10,9 +9,9 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 2,
-    name: "Project 2",
-    description: "Description of Project 2",
+    name: "Social Media App",
+    description:
+      "Create a social media platform for users to connect and share content.",
     startDate: "2023-03-01",
     endDate: "2023-04-01",
     priority: "Medium",
@@ -20,9 +19,8 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 3,
-    name: "Project 3",
-    description: "Description of Project 3",
+    name: "Inventory Management System",
+    description: "Build a system to track and manage inventory for businesses.",
     startDate: "2023-05-01",
     endDate: "2023-06-01",
     priority: "Low",
@@ -30,9 +28,9 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 4,
-    name: "Project 4",
-    description: "Description of Project 4",
+    name: "Online Learning Platform",
+    description:
+      "Design an online platform for educational courses and tutorials.",
     startDate: "2023-07-01",
     endDate: "2023-08-01",
     priority: "High",
@@ -40,9 +38,9 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 5,
-    name: "Project 5",
-    description: "Description of Project 5",
+    name: "Health and Fitness App",
+    description:
+      "Develop a mobile app to help users with their fitness goals and health tracking.",
     startDate: "2023-09-01",
     endDate: "2023-10-01",
     priority: "Medium",
@@ -50,7 +48,6 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 6,
     name: "Project 6",
     description: "Description of Project 6",
     startDate: "2023-11-01",
@@ -60,7 +57,6 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 7,
     name: "Project 7",
     description: "Description of Project 7",
     startDate: "2024-01-01",
@@ -70,7 +66,6 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 8,
     name: "Project 8",
     description: "Description of Project 8",
     startDate: "2024-03-01",
@@ -80,7 +75,6 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 9,
     name: "Project 9",
     description: "Description of Project 9",
     startDate: "2024-05-01",
@@ -90,7 +84,6 @@ const dummyProjects = [
     selectedUsers: [],
   },
   {
-    id: 10,
     name: "Project 10",
     description: "Description of Project 10",
     startDate: "2024-07-01",

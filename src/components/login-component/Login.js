@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-
+import dummyProjects from "../project-component/projectArray"
+import userArray from "../user-component/userArray";
+import { v4 as uuidv4 } from "uuid";
 import "./Login.css";
+import login from "../../assets/login.avif"
 
-const Login = () => {
+const Login = ({ setUserIsLoggedIn }) => {
   const [formData, setFormData] = React.useState({
     username: "",
     password: "",
@@ -13,7 +16,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = React.useState(""); // State for error message
 
   const navigate = useNavigate();
-
+  //  localStorage.setItem("isLoggedIn", false);
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
@@ -23,30 +26,75 @@ const Login = () => {
     });
   };
 
- const handleSubmit = (e) => {
-  e.preventDefault();
- 
-  const { username, password } = formData;
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  // Check if the entered credentials match the admin credentials
-  if (username === "Admin" && password === "pass1234") {
-    // Successful login
-    localStorage.setItem("isLoggedIn", "true"); // Store login status in localStorage
-    navigate("/"); // Redirect to the home page or any other authorized route
-  } else {
-    // Failed login
-    setErrorMessage("Invalid username or password");
-  }
- };
+    const { username, password } = formData;
+    const users = JSON.parse(localStorage.getItem("userData"));
+   console.log("Users in localStorage:", users);
+   console.log("Username:", username);
+   console.log("Password:", password);
 
+   const foundUser = users.find(
+     (user) => user.name === username && user.password === password
+   );
+   console.log("Found User:", foundUser);
+      if (foundUser) {
+        // Successful login
+        localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+        navigate("/user/" + foundUser.id); // Redirect to the user's profile page
+      }
+    // Check if the entered credentials match the admin credentials
+    else if (username === "Admin" && password === "pass1234") {
+      // Successful login
+      localStorage.setItem("isLoggedIn", JSON.stringify("adminIsTrue")); // Store login status in localStorage
+      setUserIsLoggedIn("adminIsTrue");
+
+      navigate("/"); // Redirect to the home page or any other authorized route
+    } else {
+      // Failed login
+      setErrorMessage("Invalid username or password");
+    }
+  };
+  useEffect(() => {
+    const projectData = JSON.parse(localStorage.getItem("projectData"));
+
+    if (projectData) {
+    } else {
+      // If no data is found in local storage, set the default data and generate a UUID for the id field.
+      const projectsWithUUIDs = dummyProjects.map((project) => ({
+        ...project,
+        id: uuidv4(), // Generate a unique UUID for each project
+      }));
+
+      localStorage.setItem("projectData", JSON.stringify(projectsWithUUIDs));
+      console.log("Using Default Project Data:", projectsWithUUIDs);
+    }
+  }, []);
+   useEffect(() => {
+     const storedUsers = JSON.parse(localStorage.getItem("userData"));
+
+     if (storedUsers) {
+       
+     } else {
+       // If user data doesn't exist in local storage, add unique IDs to userArray and store it
+       const usersWithIds = userArray.map((user) => ({
+         ...user,
+         id: uuidv4(), // Generate a unique ID for each user
+       }));
+
+       // Store the updated data with IDs in local storage
+       localStorage.setItem("userData", JSON.stringify(usersWithIds));
+     }
+   }, []);
 
   return (
     <div className="login-page">
       <div className="login-box">
         <div className="illustration-wrapper">
           <img
-            src="https://mixkit.imgix.net/art/preview/mixkit-left-handed-man-sitting-at-a-table-writing-in-a-notebook-27-original-large.png?q=80&auto=format%2Ccompress&h=700"
-            alt="Login"
+            src = {login}
+            alt= "Login"
           />
         </div>
         <form name="login-form" onSubmit={handleSubmit} id="login-form">
@@ -77,18 +125,8 @@ const Login = () => {
               required
             />
           </div>
-          <div className="form-item">
-            <label htmlFor="remember">
-              <input
-                type="checkbox"
-                name="remember"
-                id="remember"
-                checked={formData.remember}
-                onChange={handleInputChange}
-              />
-              Remember me
-            </label>
-          </div>
+        
+          <br/>
           <div className="form-item">
             <button type="submit" className="login-form-button">
               LOGIN

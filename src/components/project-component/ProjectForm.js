@@ -22,9 +22,11 @@ export default function ProjectForm() {
   useEffect(() => {
     if (id) {
       const item = localStorage.getItem("projectData");
+      console.log(item);
       if (item) {
+    
         const projectData = JSON.parse(item);
-        const projectToEdit = projectData.find((project) => project.id === id);
+        const projectToEdit = projectData.find((project) => project.id == id);
         if (projectToEdit) {
           reset(projectToEdit);
           setSelectedUsers(projectToEdit.selectedUsers || []); // Load selected users if available

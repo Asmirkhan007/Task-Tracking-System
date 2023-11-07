@@ -69,14 +69,16 @@ export default function UserTable({ users, onEdit, onDelete }) {
             const serialNumber = index + 1 + (currentPage - 1) * itemsPerPage;
 
             // Check local storage for project details
-            const projectDetails =
+            const projectData =
               JSON.parse(localStorage.getItem("projectData")) || [];
 
             // Find the project assigned to the user, if any
-            const assignedProject = projectDetails.find((project) =>
-              project.selectedUsers.includes(user.id)
-            );
+           const assignedProjects = projectData.filter((project) =>
+             project.selectedUsers.includes(user.id)
+           );
 
+            // const assignDetails = assignedProject.map((p) => (p.name));
+            // console.log(assignDetails)
             return (
               <tr key={user.id}>
                 <td>{serialNumber}</td>
@@ -84,8 +86,12 @@ export default function UserTable({ users, onEdit, onDelete }) {
                 <td>{user.email}</td>
                 <td>{user.role}</td>
                 <td>
-                  {assignedProject ? (
-                    assignedProject.name
+                  {assignedProjects.length > 0 ? (
+                    <ul>
+                      {assignedProjects.map((project) => (
+                        <li key={project.id}>{project.name}</li>
+                      ))}
+                    </ul>
                   ) : (
                     <span style={{ color: "red" }}>Yet to be assigned</span>
                   )}
@@ -95,10 +101,7 @@ export default function UserTable({ users, onEdit, onDelete }) {
                 <td>{user.gender}</td>
                 <td>
                   <Link to={`/edituser/${user.id}`}>
-                    <Button
-                    >
-                      Edit
-                    </Button>
+                    <Button>Edit</Button>
                   </Link>
                 </td>
                 <td>

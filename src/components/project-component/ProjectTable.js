@@ -63,6 +63,25 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     // Update local storage or your data management logic here
     localStorage.setItem("projectData", JSON.stringify(updatedProjects));
 
+    // Set the project ID in the userData for the selected users
+    const updatedUserData = userData.map((user) => {
+      if (selectedUsers.includes(user.id)) {
+        // Add the project ID to the user's projects array
+        const userProjects = user.projects || [];
+        if (!userProjects.includes(selectedProjectId)) {
+          userProjects.push(selectedProjectId);
+        }
+        return {
+          ...user,
+          projects: userProjects,
+        };
+      }
+      return user;
+    });
+
+    // Update the userData in local storage
+    localStorage.setItem("userData", JSON.stringify(updatedUserData));
+
     closeAssignUsersModal();
 
     setSelectedUsers(selectedUsers);
