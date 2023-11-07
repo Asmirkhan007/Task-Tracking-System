@@ -33,4 +33,17 @@ strong {
   font-weight: bold;
 }
 
-/* Add more styles as needed */
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading {
+  flex: 1;
+  text-align: center;
+}
+
+.button {
+  margin-left: 20px;
+}

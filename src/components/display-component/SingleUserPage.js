@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import "./SingleUserPage.css";
 import Logout from "../login-component/Logout";
 
@@ -21,9 +20,10 @@ export default function SingleUserPage({ user }) {
 
   return (
     <div>
-      <div>
-        <h1>User Profile Page</h1>
-        <Logout/>
+      <br />
+      <div className="container">
+        <h1 className="heading">User Profile Page</h1>
+        <Logout />
       </div>
 
       {loggedInUser ? (
@@ -36,7 +36,7 @@ export default function SingleUserPage({ user }) {
             Years of Experience: {loggedInUser.experience}
           </p>
           <p className="user-gender">Gender: {loggedInUser.gender}</p>
-          {userProjects.length > 0 && (
+          {userProjects.length > 0 ? (
             <>
               <h2>Assigned Projects:</h2>
               <ul>
@@ -57,10 +57,14 @@ export default function SingleUserPage({ user }) {
                 ))}
               </ul>
             </>
+          ) : (
+            <p style={{color: "red" }}>
+              Project yet to be assigned
+            </p>
           )}
         </div>
       ) : (
-        <p>No user data available. Please log in.</p>
+        <p style={{ color: "red" }}>No user data available. Please log in.</p>
       )}
     </div>
   );

@@ -6,7 +6,6 @@ import Home from "./components/home-component/HomePage";
 import Projects from "./components/project-component/Projects";
 import ProjectForm from "./components/project-component/ProjectForm";
 import Login from "./components/login-component/Login";
-import MainPage from "./components/display-component/MainPage";
 import SingleUserPage from "./components/display-component/SingleUserPage";
 
 function App() {
@@ -37,10 +36,6 @@ function App() {
       <Route
         path="/"
         element={userCheck ? <Home /> : <Navigate to="/login" />}
-      />
-      <Route
-        path="/single"
-        element={userCheck ? <MainPage /> : <Navigate to="/login" />}
       />
 
       <Route
