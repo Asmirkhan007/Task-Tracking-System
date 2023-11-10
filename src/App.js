@@ -12,14 +12,13 @@ function App() {
   // State to manage user login status
    const currentLogInStatus = JSON.parse(localStorage.getItem("isLoggedIn")) === true;
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(currentLogInStatus);
-
+  
   return (
     <Routes>
       <Route
         path="/"
         // Render the Home component if the user is logged in; otherwise, navigate to the login page
         element={userIsLoggedIn ? <Home /> : <Navigate to="/login" />}
-        // element={<Login/>}
       />
       <Route
         path="/users"

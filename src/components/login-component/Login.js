@@ -8,6 +8,7 @@ import loginImage from "../../assets/login.avif";
 
 const Login = ({ setUserIsLoggedIn }) => {
   // State to manage form data
+  // console.log("ssw");
   const [formData, setFormData] = React.useState({
     username: "",
     password: "",
