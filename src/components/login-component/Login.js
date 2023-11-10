@@ -62,8 +62,8 @@ const Login = ({ setUserIsLoggedIn }) => {
       password === "pass1234"
     ) {
       // Store the admin login status in local storage and update the user login status
-      localStorage.setItem("isLoggedIn", JSON.stringify("adminIsTrue"));
-      setUserIsLoggedIn("adminIsTrue");
+      localStorage.setItem("isLoggedIn", true);
+      setUserIsLoggedIn(true);
       navigate("/");
     } else {
       // If no matching user or admin login, show an error message
