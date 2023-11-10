@@ -18,7 +18,7 @@ const Logout = () => {
     }
 
     if (isAdmin) {
-      localStorage.removeItem("isLoggedIn");
+      localStorage.setItem("isLoggedIn", false);
     }
 
     // You can clear other relevant data or logout logic here if needed

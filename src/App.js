@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Users from "./components/user-component/Users";
 import UserForm from "./components/user-component/UserForm";
@@ -10,25 +10,8 @@ import SingleUserPage from "./components/display-component/SingleUserPage";
 
 function App() {
   // State to manage user login status
-   const currentLogInStatus = JSON.parse(localStorage.getItem("isLoggedIn"));
+   const currentLogInStatus = JSON.parse(localStorage.getItem("isLoggedIn")) === true;
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(currentLogInStatus);
-
-  // Function to retrieve user login status from local storage
-  const getIsLoggedIn = () => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn && isLoggedIn !== "undefined") {
-      const temp = JSON.parse(isLoggedIn);
-      setUserIsLoggedIn(temp);
-    } else {
-      localStorage.setItem("isLoggedIn", JSON.stringify(false));
-      setUserIsLoggedIn(false);
-    }
-  };
-
-  // Use useEffect to initialize user login status
-  useEffect(() => {
-    getIsLoggedIn();
-  }, []);
 
   return (
     <Routes>
@@ -36,6 +19,7 @@ function App() {
         path="/"
         // Render the Home component if the user is logged in; otherwise, navigate to the login page
         element={userIsLoggedIn ? <Home /> : <Navigate to="/login" />}
+        // element={<Login/>}
       />
       <Route
         path="/users"
