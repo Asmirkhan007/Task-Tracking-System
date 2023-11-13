@@ -35,6 +35,15 @@ const Users = () => {
   };
 
   const handleDelete = (id) => {
+    // Update projects in local storage to remove the user from selectedUsers
+    const projectData = JSON.parse(localStorage.getItem("projectData")) || [];
+
+    const updatedProjectData = projectData.map((project) => ({
+      ...project,
+      selectedUsers: project.selectedUsers.filter((userId) => userId !== id),
+    }));
+
+    localStorage.setItem("projectData", JSON.stringify(updatedProjectData));
     const updatedUsers = users.filter((user) => user.id !== id);
     setUsers(updatedUsers);
     localStorage.setItem("userData", JSON.stringify(updatedUsers));

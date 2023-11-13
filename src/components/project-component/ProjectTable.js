@@ -174,12 +174,13 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                     {project.selectedUsers.length > 0 && userData.length > 0 ? (
                       project.selectedUsers.map((userId) => {
                         const user = userData.find((u) => u.id === userId);
+                        console.log(project.selectedUsers)
                         if (user) return <div key={userId}>{user.name}</div>;
-                        else {
-                          return (
-                            <div className="user-info">Yet to be assigned</div>
-                          );
-                        }
+                        // else {
+                        //   return (
+                        //     <div className="user-info">Yet to be assigned</div>
+                        //   );
+                        // }
                       })
                     ) : (
                       <div className="user-info">Yet to be assigned</div>
