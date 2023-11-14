@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import dummyProjects from "../project-component/projectArray";
 import userArray from "../user-component/userArray";
@@ -7,44 +8,24 @@ import "./Login.css";
 import loginImage from "../../assets/login.avif";
 
 const Login = ({ setUserIsLoggedIn }) => {
-  // State to manage form data
-  // console.log("ssw");
-  const [formData, setFormData] = React.useState({
-    username: "",
-    password: "",
-    remember: false,
-  });
-
-  // State to manage error messages
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  // Get the navigation function from React Router
-  const navigate = useNavigate();
+  useEffect(() => {
+    getProjectData();
+    getUserData();
+  }, []);
 
-  // Function to handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
-    setFormData({
-      ...formData,
-      [name]: newValue,
-    });
-  };
-
-  // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Extract username and password from form data
-    const { username, password } = formData;
-
-    // Get user data from local storage
+  const onSubmit = (data) => {
+    const { username, password } = data;
     const users = JSON.parse(localStorage.getItem("userData"));
-
-    // Convert the username to lowercase for case-insensitive comparison
     const lowercaseUsername = username.toLowerCase();
-
-    // Find the user with the provided username and matching password
     const foundUser = users.find(
       (user) =>
         (user.name.toLowerCase() === lowercaseUsername ||
@@ -53,30 +34,24 @@ const Login = ({ setUserIsLoggedIn }) => {
     );
 
     if (foundUser) {
-      // If a user is found, store it in local storage and navigate to the user's page
       localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
       navigate("/user/" + foundUser.id);
     } else if (
-      // Check for an admin login
       (lowercaseUsername === "admin" ||
         lowercaseUsername === "admin@thirantech.com") &&
       password === "pass1234"
     ) {
-      // Store the admin login status in local storage and update the user login status
       localStorage.setItem("isLoggedIn", true);
       setUserIsLoggedIn(true);
       navigate("/");
     } else {
-      // If no matching user or admin login, show an error message
       setErrorMessage("Invalid username or password");
     }
 
-    // Clear the password and remember flag in the form data
-    setFormData({
-      password: "",
-      remember: false,
-    });
+    // Clear the password in the form data
+    setValue("password", "");
   };
+
   const getProjectData = () => {
     const projectData = JSON.parse(localStorage.getItem("projectData"));
 
@@ -107,13 +82,6 @@ const Login = ({ setUserIsLoggedIn }) => {
       localStorage.setItem("userData", JSON.stringify(usersWithIds));
     }
   };
-  // Use useEffect to initialize project data if it doesn't exist in local storage
-  // Use useEffect to initialize user data if it doesn't exist in local storage
-  useEffect(() => {
-    getProjectData();
-    getUserData();
-  }, []);
-
 
   return (
     <div className="login-page">
@@ -121,7 +89,11 @@ const Login = ({ setUserIsLoggedIn }) => {
         <div className="illustration-wrapper">
           <img src={loginImage} alt="Login" />
         </div>
-        <form name="login-form" onSubmit={handleSubmit} id="login-form">
+        <form
+          name="login-form"
+          onSubmit={handleSubmit(onSubmit)}
+          id="login-form"
+        >
           <p className="form-title">Welcome back</p>
           <p>Login to the Dashboard</p>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
@@ -131,10 +103,11 @@ const Login = ({ setUserIsLoggedIn }) => {
               type="text"
               name="username"
               id="username"
-              value={formData.username}
-              onChange={handleInputChange}
-              required
+              {...register("username", { required: "Username is required" })}
             />
+            {errors.username && (
+              <p className="error-message">{errors.username.message}</p>
+            )}
           </div>
           <div className="form-item">
             <label htmlFor="password">Password</label>
@@ -142,10 +115,11 @@ const Login = ({ setUserIsLoggedIn }) => {
               type="password"
               name="password"
               id="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
+              {...register("password", { required: "Password is required" })}
             />
+            {errors.password && (
+              <p className="error-message">{errors.password.message}</p>
+            )}
           </div>
           <br />
           <div className="form-item">

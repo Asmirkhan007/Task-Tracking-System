@@ -27,6 +27,18 @@ export default function ProjectForm() {
   const watchStartDate = watch("startDate", "");
   const watchEndDate = watch("endDate", "");
 
+  // Use useEffect to prefill form data when editing a project
+  useEffect(() => {
+    prePopulateData(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, reset]);
+
+  // Use useEffect to trigger validation whenever the start date changes
+  useEffect(() => {
+    validateEndDate(watchEndDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchStartDate, watchEndDate]);
+
   // Custom validation function to check if the end date is after the start date
   const validateEndDate = (endDate) => {
     return (
@@ -34,12 +46,6 @@ export default function ProjectForm() {
       "End date must be after the start date"
     );
   };
-
-  // Use useEffect to trigger validation whenever the start date changes
-  useEffect(() => {
-    validateEndDate(watchEndDate);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchStartDate, watchEndDate]);
 
   const prePopulateData = (id) => {
     if (id) {
@@ -54,12 +60,7 @@ export default function ProjectForm() {
         }
       }
     }
-  }
-  // Use useEffect to prefill form data when editing a project
-  useEffect(() => {
-    prePopulateData(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, reset]);
+  };
 
   // Get user data from localStorage
   const userData = JSON.parse(localStorage.getItem("userData")) || [];
