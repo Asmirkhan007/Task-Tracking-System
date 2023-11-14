@@ -41,6 +41,9 @@ const AssignUsersModal = ({
             ) : (
               <>
                 <p>Assign Users to this project:</p>
+                <p>
+                  Note: Hold CTRL and select a user to select multiple users
+                </p>
                 <select
                   name="selectedUsers"
                   multiple

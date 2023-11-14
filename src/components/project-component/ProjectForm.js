@@ -20,10 +20,28 @@ export default function ProjectForm() {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
-  // Use useEffect to prefill form data when editing a project
+  // Watch the 'startDate' and 'endDate' fields to trigger validation when they change
+  const watchStartDate = watch("startDate", "");
+  const watchEndDate = watch("endDate", "");
+
+  // Custom validation function to check if the end date is after the start date
+  const validateEndDate = (endDate) => {
+    return (
+      (endDate && endDate >= watchStartDate) ||
+      "End date must be after the start date"
+    );
+  };
+
+  // Use useEffect to trigger validation whenever the start date changes
   useEffect(() => {
+    validateEndDate(watchEndDate);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchStartDate, watchEndDate]);
+
+  const prePopulateData = (id) => {
     if (id) {
       const item = localStorage.getItem("projectData");
       if (item) {
@@ -36,6 +54,11 @@ export default function ProjectForm() {
         }
       }
     }
+  }
+  // Use useEffect to prefill form data when editing a project
+  useEffect(() => {
+    prePopulateData(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, reset]);
 
   // Get user data from localStorage
@@ -126,7 +149,10 @@ export default function ProjectForm() {
           <input
             type="date"
             name="endDate"
-            {...register("endDate", { required: "End date is required" })}
+            {...register("endDate", {
+              required: "End date is required",
+              validate: validateEndDate, // Use the custom validation function
+            })}
           />
           {displayError("endDate")}
         </div>
