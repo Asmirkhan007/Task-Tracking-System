@@ -64,7 +64,6 @@ const Login = ({ setUserIsLoggedIn }) => {
 
       // Store the default project data in local storage
       localStorage.setItem("projectData", JSON.stringify(projectsWithUUIDs));
-      console.log("Using Default Project Data:", projectsWithUUIDs);
     }
   };
 
