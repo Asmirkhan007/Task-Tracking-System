@@ -1,8 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Logout.css";
 
 const Logout = () => {
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     // Clear user data from localStorage
     const isAdmin = JSON.parse(localStorage.getItem("isLoggedIn"));
@@ -10,14 +11,17 @@ const Logout = () => {
 
     if (isUser) {
       localStorage.removeItem("loggedInUser");
+      navigate("/");
     }
 
     if (isAdmin) {
       localStorage.setItem("isLoggedIn", false);
+      // Reload the page after logout
+      window.location.reload();
     }
-    // Reload the page after logout
-    window.location.reload();
+   
     
+   
   };
 
   return (
