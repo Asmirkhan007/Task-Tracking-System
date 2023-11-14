@@ -176,7 +176,6 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                       // eslint-disable-next-line array-callback-return
                       project.selectedUsers.map((userId) => {
                         const user = userData.find((u) => u.id === userId);
-                        console.log(project.selectedUsers);
                         if (user) return <div key={userId}>{user.name}</div>;
                         // else {
                         //   return (
