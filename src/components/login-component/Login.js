@@ -77,9 +77,7 @@ const Login = ({ setUserIsLoggedIn }) => {
       remember: false,
     });
   };
-
-  // Use useEffect to initialize project data if it doesn't exist in local storage
-  useEffect(() => {
+  const getProjectData = () => {
     const projectData = JSON.parse(localStorage.getItem("projectData"));
 
     if (!projectData) {
@@ -93,10 +91,9 @@ const Login = ({ setUserIsLoggedIn }) => {
       localStorage.setItem("projectData", JSON.stringify(projectsWithUUIDs));
       console.log("Using Default Project Data:", projectsWithUUIDs);
     }
-  }, []);
+  };
 
-  // Use useEffect to initialize user data if it doesn't exist in local storage
-  useEffect(() => {
+  const getUserData = () => {
     const storedUsers = JSON.parse(localStorage.getItem("userData"));
 
     if (!storedUsers) {
@@ -109,7 +106,14 @@ const Login = ({ setUserIsLoggedIn }) => {
       // Store the default user data in local storage
       localStorage.setItem("userData", JSON.stringify(usersWithIds));
     }
+  };
+  // Use useEffect to initialize project data if it doesn't exist in local storage
+  // Use useEffect to initialize user data if it doesn't exist in local storage
+  useEffect(() => {
+    getProjectData();
+    getUserData();
   }, []);
+
 
   return (
     <div className="login-page">

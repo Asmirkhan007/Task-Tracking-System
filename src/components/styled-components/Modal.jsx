@@ -16,7 +16,7 @@ const Modal = ({ open, onClose, onConfirm }) => {
             X
           </p>
           <div className="content">
-            <p>Are you sure you want to delete this user?</p>
+            <p>Are you sure you want to delete?</p>
           </div>
           <div className="btnContainer">
             <button className="btnPrimary" onClick={onConfirm}>

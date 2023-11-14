@@ -172,6 +172,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                   <td>{project.techStack}</td>
                   <td>
                     {project.selectedUsers.length > 0 && userData.length > 0 ? (
+                      // eslint-disable-next-line array-callback-return
                       project.selectedUsers.map((userId) => {
                         const user = userData.find((u) => u.id === userId);
                         console.log(project.selectedUsers)

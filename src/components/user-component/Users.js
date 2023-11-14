@@ -10,7 +10,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const getUserData = () => {
     const storedUsers = JSON.parse(localStorage.getItem("userData"));
 
     if (storedUsers) {
@@ -26,6 +26,9 @@ const Users = () => {
     }
 
     setLoading(false);
+  }
+  useEffect(() => {
+    getUserData();
   }, []);
 
   const editUser = (id, data) => {

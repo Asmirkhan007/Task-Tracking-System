@@ -60,6 +60,10 @@ export default function UserForm() {
     reset();
     navigate("/users");
   };
+  // Custom validation function for the "Years of Experience" field
+  const validateExperience = (value) => {
+    return value >= 0 || "Years of experience cannot be less than 0";
+  };
 
   // Display error messages for form fields
   const displayError = (fieldName) => {
@@ -149,10 +153,15 @@ export default function UserForm() {
             type="number"
             name="experience"
             placeholder="Enter your years of experience"
-            {...register("experience", { value: 0 })} // Set default value to 0
+            {...register("experience", {
+              required: "Years of experience is required",
+              validate: validateExperience, // Use the custom validation function
+            })}
             defaultValue={0}
           />
+          {displayError("experience")}
         </div>
+
         <div className="form-element">
           <label>Gender</label>
           <div className="inline-radio">
