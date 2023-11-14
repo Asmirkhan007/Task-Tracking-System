@@ -12,7 +12,6 @@ const AssignUsersModal = ({
 
   const handleUserSelection = (e) => {
     // Update the selected users when the multi-select input changes
-    console.log("working");
     const selectedUserIds = Array.from(
       e.target.selectedOptions,
       (option) => option.value

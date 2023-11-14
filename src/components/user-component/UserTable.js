@@ -10,9 +10,17 @@ export default function UserTable({ users, onEdit, onDelete }) {
   // State to manage the delete confirmation modal
   const [openModal, setOpenModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
-
   // State to manage the current page of the table
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Use effect to retrieve the current page from local storage
+  useEffect(() => {
+    const savedPage = localStorage.getItem("userTableCurrentPage");
+    if (savedPage) {
+      setCurrentPage(parseInt(savedPage, 10));
+    }
+  }, []);
+
   const itemsPerPage = 5; // Number of items per page
 
   // Function to open the delete confirmation modal
@@ -36,14 +44,6 @@ export default function UserTable({ users, onEdit, onDelete }) {
 
   // Get the items to display on the current page
   const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Use effect to retrieve the current page from local storage
-  useEffect(() => {
-    const savedPage = localStorage.getItem("userTableCurrentPage");
-    if (savedPage) {
-      setCurrentPage(parseInt(savedPage, 10));
-    }
-  }, []);
 
   // Function to handle page changes and update the current page in local storage
   const handlePageChange = (pageNumber) => {

@@ -9,6 +9,10 @@ import { v4 as uuidv4 } from "uuid";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   const getUserData = () => {
     const storedUsers = JSON.parse(localStorage.getItem("userData"));
@@ -27,9 +31,7 @@ const Users = () => {
 
     setLoading(false);
   }
-  useEffect(() => {
-    getUserData();
-  }, []);
+  
 
   const editUser = (id, data) => {
     const updatedUsers = users.map((user) => (user.id === id ? data : user));

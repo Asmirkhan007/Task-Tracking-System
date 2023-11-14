@@ -9,26 +9,27 @@ import { v4 as uuidv4 } from "uuid";
 export default function Projects() {
   const [projects, setProjects] = useState([]);
 
-  const getProjectData = () => {
-     const projectData = JSON.parse(localStorage.getItem("projectData"));
-
-     if (projectData) {
-       setProjects(projectData);
-     } else {
-       const projectsWithUUIDs = dummyProjects.map((project) => ({
-         ...project,
-         id: uuidv4(),
-       }));
-
-       localStorage.setItem("projectData", JSON.stringify(projectsWithUUIDs));
-       console.log("Using Default Project Data:", projectsWithUUIDs);
-       setProjects(projectsWithUUIDs);
-     }
-  }
   // Use useEffect to initialize project data from localStorage or dummy data
   useEffect(() => {
     getProjectData();
   }, []);
+
+  const getProjectData = () => {
+    const projectData = JSON.parse(localStorage.getItem("projectData"));
+
+    if (projectData) {
+      setProjects(projectData);
+    } else {
+      const projectsWithUUIDs = dummyProjects.map((project) => ({
+        ...project,
+        id: uuidv4(),
+      }));
+
+      localStorage.setItem("projectData", JSON.stringify(projectsWithUUIDs));
+      console.log("Using Default Project Data:", projectsWithUUIDs);
+      setProjects(projectsWithUUIDs);
+    }
+  };
 
   // Function to edit a project
   const editProject = (id, data) => {

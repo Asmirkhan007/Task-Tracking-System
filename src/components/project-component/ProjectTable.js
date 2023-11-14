@@ -17,6 +17,25 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
 
   // State to manage the current page of the table
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Use useEffect to restore the current page from localStorage
+  useEffect(() => {
+    const savedPage = localStorage.getItem("projectTableCurrentPage");
+    if (savedPage) {
+      setCurrentPage(parseInt(savedPage, 10));
+    }
+  }, []);
+
+  // Use useEffect to provide a message if no users are available
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData")) || [];
+    if (userData.length === 0) {
+      alert(
+        "Please note that only placeholder projects are present in the table. You can create new projects to proceed."
+      );
+    }
+  }, []);
+
   const itemsPerPage = 5; // Number of items per page
 
   // Function to open the delete confirmation modal
@@ -98,24 +117,6 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
   const userData = JSON.parse(localStorage.getItem("userData")) || [];
   const totalPages = Math.ceil(projects.length / itemsPerPage);
 
-  // Use useEffect to restore the current page from localStorage
-  useEffect(() => {
-    const savedPage = localStorage.getItem("projectTableCurrentPage");
-    if (savedPage) {
-      setCurrentPage(parseInt(savedPage, 10));
-    }
-  }, []);
-
-  // Use useEffect to provide a message if no users are available
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("userData")) || [];
-    if (userData.length === 0) {
-      alert(
-        "Please note that only placeholder projects are present in the table. You can create new projects to proceed."
-      );
-    }
-  }, []);
-
   // Calculate the index of the last and first item on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -175,7 +176,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
                       // eslint-disable-next-line array-callback-return
                       project.selectedUsers.map((userId) => {
                         const user = userData.find((u) => u.id === userId);
-                        console.log(project.selectedUsers)
+                        console.log(project.selectedUsers);
                         if (user) return <div key={userId}>{user.name}</div>;
                         // else {
                         //   return (
