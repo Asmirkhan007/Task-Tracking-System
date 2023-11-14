@@ -58,6 +58,10 @@ const AssignUsersModal = ({
               </>
             )}
           </div>
+          {userData.length === 0 ?  <div className="btnContainer">
+            <button className="btnPrimary" onClick={handleConfirm}>
+              Back
+            </button> </div>:
           <div className="btnContainer">
             <button className="btnPrimary" onClick={handleConfirm}>
               Confirm
@@ -66,6 +70,7 @@ const AssignUsersModal = ({
               Cancel
             </button>
           </div>
+}
         </div>
       </div>
     </div>

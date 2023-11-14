@@ -26,15 +26,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     }
   }, []);
 
-  // Use useEffect to provide a message if no users are available
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("userData")) || [];
-    if (userData.length === 0) {
-      alert(
-        "Please note that only placeholder projects are present in the table. You can create new projects to proceed."
-      );
-    }
-  }, []);
+
 
   const itemsPerPage = 5; // Number of items per page
 
@@ -60,13 +52,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     setSelectedProjectId(projectId);
     setAssignUsersModalOpen(true);
 
-    // Retrieve user data from local storage
-    const userData = JSON.parse(localStorage.getItem("userData")) || [];
-
-    // Provide a message if no users are available
-    if (userData.length === 0) {
-      alert("Please note that no users are available. You can add new users.");
-    }
+    
   };
 
   // Function to close the assign users modal

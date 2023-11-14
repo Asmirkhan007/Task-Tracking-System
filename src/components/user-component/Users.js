@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -30,8 +30,7 @@ const Users = () => {
     }
 
     setLoading(false);
-  }
-  
+  };
 
   const editUser = (id, data) => {
     const updatedUsers = users.map((user) => (user.id === id ? data : user));
@@ -54,6 +53,8 @@ const Users = () => {
     localStorage.setItem("userData", JSON.stringify(updatedUsers));
   };
 
+
+
   if (loading) {
     return <div>Loading...</div>; // Show a loading indicator while fetching data
   }
@@ -69,7 +70,8 @@ const Users = () => {
             <button className="add-user-button">Add User</button>
           </Link>
         </header>
-        <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
+        
+          <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
       </div>
     </>
   );

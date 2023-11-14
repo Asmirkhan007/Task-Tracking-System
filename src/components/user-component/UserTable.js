@@ -51,6 +51,15 @@ export default function UserTable({ users, onEdit, onDelete }) {
     localStorage.setItem("userTableCurrentPage", pageNumber);
   };
 
+  // Render a message if no projects are available
+  if (currentItems.length === 0 || typeof currentItems === "undefined") {
+    return (
+      <div className="table-container">
+        <p>No projects found. You can create new projects to proceed.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="table-container">
       <table>
