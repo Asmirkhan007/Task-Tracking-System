@@ -55,6 +55,7 @@ export default function ProjectForm() {
         const projectToEdit = projectData.find((project) => project.id === id);
         if (projectToEdit) {
           // Reset the form with project data and set selected users
+          console.log(projectToEdit)
           reset(projectToEdit);
           setSelectedUsers(projectToEdit.selectedUsers || []);
         }
