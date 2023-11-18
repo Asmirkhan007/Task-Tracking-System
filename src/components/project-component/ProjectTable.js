@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+// ProjectsTable.js
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import Modal from "../styled-components/Modal";
-import Button from "../styled-components/Button";
-import Pagination from "../styled-components/Pagination";
-import AssignUsersModal from "../styled-components/AssignUserModal";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PersonAddIcon from "@mui/icons-material/PersonAdd"; // Added Assign User icon
 import "./css/ProjectTable.css";
 
-export default function ProjectTable({ projects, onEdit, onDelete }) {
+import AssignUsersModal from "../styled-components/AssignUserModal";
+
+export default function ProjectsTable({ projects, onDelete }) {
   // State to manage the delete confirmation modal
   const [openModal, setOpenModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
@@ -14,22 +19,6 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
   // State to manage the assign users modal
   const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
-
-  // State to manage the current page of the table
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Use useEffect to restore the current page from localStorage
-  useEffect(() => {
-    const savedPage = localStorage.getItem("projectTableCurrentPage");
-    if (savedPage) {
-      setCurrentPage(parseInt(savedPage, 10));
-    }
-  }, []);
-
-
-
-  const itemsPerPage = 5; // Number of items per page
-
   // Function to open the delete confirmation modal
   const openDeleteModal = (projectId) => {
     setSelectedProjectId(projectId);
@@ -45,14 +34,14 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
   // Function to open the assign users modal
   const openAssignUsersModal = (projectId) => {
     // Find the project with the selected ID
+    console.log("proint")
     const project = projects.find((p) => p.id === projectId);
 
     // Set the selected users and project ID for assign users modal
+    console.log(project);
     setSelectedUsers(project.selectedUsers || []);
     setSelectedProjectId(projectId);
     setAssignUsersModalOpen(true);
-
-    
   };
 
   // Function to close the assign users modal
@@ -91,6 +80,7 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
       }
       return user;
     });
+    
 
     // Save the updated user data to local storage
     localStorage.setItem("userData", JSON.stringify(updatedUserData));
@@ -99,24 +89,8 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
     closeAssignUsersModal();
   };
 
-  // Retrieve user data from local storage or provide an alert message
-  const userData = JSON.parse(localStorage.getItem("userData")) || [];
-  const totalPages = Math.ceil(projects.length / itemsPerPage);
+    const userData = JSON.parse(localStorage.getItem("userData")) || [];
 
-  // Calculate the index of the last and first item on the current page
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // Get the items to display on the current page
-  const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Function to handle page changes and update the current page in local storage
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    localStorage.setItem("projectTableCurrentPage", pageNumber);
-  };
-
-  // Render a message if no projects are available
   if (projects.length === 0 || typeof projects === "undefined") {
     return (
       <div className="table-container">
@@ -128,90 +102,31 @@ export default function ProjectTable({ projects, onEdit, onDelete }) {
   return (
     <>
       <div className="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Sl No.</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Priority</th>
-              <th>Tech Stack</th>
-              <th>Users</th>
-              <th>Actions</th>
-              <th className="assign-users-col">Assign Users</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((project, index) => {
-              const serialNumber = index + 1 + (currentPage - 1) * itemsPerPage;
-
-              return (
-                <tr key={project.id}>
-                  <td>{serialNumber}</td>
-                  <td>{project.name}</td>
-                  <td>{project.description}</td>
-                  <td>{project.startDate}</td>
-                  <td>{project.endDate}</td>
-                  <td>{project.priority}</td>
-                  <td>{project.techStack}</td>
-                  <td>
-                    {project.selectedUsers.length > 0 && userData.length > 0 ? (
-                      // eslint-disable-next-line array-callback-return
-                      project.selectedUsers.map((userId) => {
-                        const user = userData.find((u) => u.id === userId);
-                        if (user) return <div key={userId}>{user.name}</div>;
-                        // else {
-                        //   return (
-                        //     <div className="user-info">Yet to be assigned</div>
-                        //   );
-                        // }
-                      })
-                    ) : (
-                      <div className="user-info">Yet to be assigned</div>
-                    )}
-                  </td>
-                  <td>
-                    <Link to={`/editproject/${project.id}`}>
-                      <Button>Edit</Button>
-                    </Link>
-                  </td>
-                  <td className="assign-users-col">
-                    <button
-                      className="assign-user"
-                      onClick={() => openAssignUsersModal(project.id)}
-                    >
-                      Add Users
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="delete-data"
-                      onClick={() => openDeleteModal(project.id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-        <Modal
-          open={openModal}
-          onClose={closeDeleteModal}
-          onConfirm={() => {
-            onDelete(selectedProjectId);
-            closeDeleteModal();
-          }}
-        />
+        <div className="card-container">
+          {projects.map((project) => (
+            <Card key={project.id} className="project-card">
+              <CardContent>
+                <Typography variant="h6">{project.name}</Typography>
+                <Typography>Description: {project.description}</Typography>
+                <Link to={`/project-details/${project.id}`}>View Details</Link>
+              </CardContent>
+              <div className="project-icons-container">
+                <Link to={`/editproject/${project.id}`}>
+                  <EditIcon color="primary" />
+                </Link>
+                <PersonAddIcon
+                  className="assign-user"
+                  onClick={() => openAssignUsersModal(project.id)}
+                />
+                <DeleteIcon
+                  className="delete-data"
+                  onClick={() => openDeleteModal(project.id)}
+                />
+              </div>
+            </Card>
+          ))}
+        </div>
+        {/* ... (remaining code) */}
       </div>
       <AssignUsersModal
         open={assignUsersModalOpen}

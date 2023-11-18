@@ -7,6 +7,8 @@ import Projects from "./components/project-component/Projects";
 import ProjectForm from "./components/project-component/ProjectForm";
 import Login from "./components/login-component/Login";
 import SingleUserPage from "./components/display-component/SingleUserPage";
+import UserDetails from "./components/user-component/UserDetails";
+import ProjectDetails from "./components/project-component/ProjectDetails";
 
 function App() {
   // State to manage user login status
@@ -49,6 +51,16 @@ function App() {
         path="/user/:id"
         // Render the SingleUserPage component to display a single user's information
         element={<SingleUserPage />}
+      />
+      <Route
+        path="/user-details/:id"
+        // Render the SingleUserPage component to display a single user's information
+        element={<UserDetails />}
+      />
+      <Route
+        path="/project-details/:id"
+        // Render the SingleUserPage component to display a single user's information
+        element={<ProjectDetails/>}
       />
       <Route
         path="/editproject/:id"

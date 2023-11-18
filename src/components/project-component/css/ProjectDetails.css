@@ -1,0 +1,33 @@
+/* ProjectDetails.css */
+
+.details-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.details-card {
+  width: 500px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.details-header {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.details-info {
+  padding: 20px;
+}
+
+.details-info p {
+  margin: 4px 0;
+}

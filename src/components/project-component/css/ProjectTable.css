@@ -1,66 +1,30 @@
-/* UserTable.css */
-.table-container {
-  margin: 20px;
+/* ProjectsTable.css */
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.project-card {
+  width: 350px;
+  margin: 40px;
 }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: left;
-  padding: 10px;
-  border: 1px solid #ccc;
+.project-card a {
+  text-decoration: none;
+  color: #1976d2; /* Link color */
 }
 
-td {
-  padding: 10px;
-  border: 1px solid #ccc;
+.card-icons-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #e0e0e0;
-}
-
-h2 {
-  font-size: 24px;
-  margin: 0 0 20px 0;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  table {
-    font-size: 14px;
+/* Responsive styles (adjust as needed) */
+@media (max-width: 600px) {
+  .project-card {
+    width: 100%;
   }
-
-  th,
-  td {
-    padding: 8px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-}
-th.assign-users-col,
-td.assign-users-col {
-  width: 11%;
-}
-.assign-user{
-  background-color: green;
-  color: white
-}
-.delete-data{
-  background-color: red;
-  color: white
-}
-.user-info {
-  color: red;
 }

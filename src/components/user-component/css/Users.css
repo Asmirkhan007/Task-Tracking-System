@@ -1,3 +1,6 @@
+body {
+  background-color: whitesmoke;
+}
 .header-container {
   display: flex;
   justify-content: space-between; /* Pushes elements apart, aligning the heading to the center and the button to the right */
