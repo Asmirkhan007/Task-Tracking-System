@@ -189,12 +189,14 @@ export default function UserForm() {
           {displayError("gender")}
         </div>
         <div className="form-element">
-          <Button type="submit">{id ? "Save" : "Submit"}</Button>
-          {id && (
-            <Link to="/users">
-              <Button>Cancel</Button>
-            </Link>
-          )}
+          <div className="button-wrapper">
+            <Button type="submit">{id ? "Save" : "Submit"}</Button>
+            {id && (
+              <Link to="/projects">
+                <Button>Cancel</Button>
+              </Link>
+            )}
+          </div>
         </div>
       </form>
     </>

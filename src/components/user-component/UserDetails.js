@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import profileImage from "../../assets/profile-photo.webp";
 import CustomNavbar from "../styled-components/Navbar";
+import noProjectsImage from '../../assets/no-project.avif'
 import "./css/UserDetails.css";
+import Button from "@mui/material/Button";
 
 export default function UserDetails() {
   const { id } = useParams();
@@ -20,6 +22,7 @@ export default function UserDetails() {
         const dummyProjects = JSON.parse(localStorage.getItem("projectData"));
         if (dummyProjects) {
           setProjectDetails(dummyProjects);
+          console.log(projectDetails);
         }
         console.log(userDataFromStorage);
         if (userDataFromStorage) {
@@ -48,11 +51,12 @@ export default function UserDetails() {
     // Render loading state or handle no user details
     return <p>Loading...</p>;
   }
-
+  console.log(userDetails.project)
+   const userProjects = userDetails.projects || [];
   return (
     <>
       <CustomNavbar />
-      <div className="user-details-container">
+      <div className="details-container">
         <div className="profile-card">
           <div className="profile-header">
             <img
@@ -60,33 +64,51 @@ export default function UserDetails() {
               alt="ProfileIcon"
               className="profile-photo"
             />
-            <h2>User Details</h2>
+            <h2> {userDetails.name}</h2>
+            <br />
           </div>
           <div className="profile-info">
-            <p>Name: {userDetails.name}</p>
             <p>Role: {userDetails.role}</p>
             <p>Email: {userDetails.email}</p>
             <p>Number: {userDetails.number}</p>
-             <p>Experience: {userDetails.experience}</p>
+            <p>Experience: {userDetails.experience}</p>
             <p>Gender: {userDetails.gender}</p>
             {/* Display other user details as needed */}
           </div>
         </div>
         <div className="projects-container">
-          <h2>Assigned Projects</h2>
           <div className="projects-scrollable">
-            {userDetails.projects.map((projectId) => {
-              const project = projectDetails.find(
-                (proj) => proj.id === projectId
-              );
-              return (
-                <div className="project-card" key={project.id}>
-                  <h3>{project.name}</h3>
-                  <p>{project.description}</p>
-                  {/* Add more project details as needed */}
-                </div>
-              );
-            })}
+            <h2>Assigned Projects</h2>
+            <br/>
+            {userProjects.length > 0 && userProjects !== "undefined" ? (
+              userProjects.map((projectId) => {
+                const project = projectDetails.find(
+                  (proj) => proj.id === projectId
+                );
+                return (
+                  project && (
+                    <div className="project-card" key={project.id}>
+                      <h3>{project.name}</h3>
+                      <p>{project.description}</p>
+                      <Link to={`/project-details/${project.id}`}>
+                        <Button variant="outlined" color="primary">
+                          View more details
+                        </Button>
+                      </Link>
+                    </div>
+                  )
+                );
+              })
+            ) : (
+              <div className="no-projects">
+                <img
+                  src={noProjectsImage}
+                  alt="No projects assigned"
+                  className="no-projects-image"
+                />
+                <p>No projects assigned yet.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -6,9 +6,9 @@
   justify-content: flex-start;
 }
 
-.project-card {
-  width: 350px;
-  margin: 40px;
+.table-container .card-container .project-card {
+  width: calc(33.33% - 40px);
+  margin: 20px;
 }
 
 .project-card a {
@@ -16,13 +16,22 @@
   color: #1976d2; /* Link color */
 }
 
-.card-icons-container {
+.project-icons-container {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
 }
+.project-icons-container > * {
+  margin-right: 10px; /* Adjust the space between icons as needed */
+}
 
 /* Responsive styles (adjust as needed) */
+@media (max-width: 1200px) {
+  .project-card {
+    width: calc(50% - 40px);
+  }
+}
+
 @media (max-width: 600px) {
   .project-card {
     width: 100%;

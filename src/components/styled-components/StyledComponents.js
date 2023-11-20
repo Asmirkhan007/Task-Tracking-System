@@ -25,8 +25,8 @@ export const NavigationBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: 400px; /* Increase the height to make the boxes taller */
-  min-width: 550px;
+  min-height: 350px; /* Increase the height to make the boxes taller */
+  min-width: 400px;
   width: 40%; /* Increase the width to 40% of the parent container */
   margin: 0 2%; /* Add margin between the boxes */
 

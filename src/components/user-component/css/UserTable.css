@@ -4,11 +4,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  gap: 20px; /* Add some gap between the cards */
 }
 
 .user-card {
-  width: 350px; /* Set a fixed width for each card */
-  margin: 40px;
+  flex: 1 0 calc(33.33% - 20px); /* Three cards in a row with 20px gap */
+  max-width: calc(33.33% - 20px);
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Add some bottom margin to improve spacing */
 }
 
 .view-details-link {

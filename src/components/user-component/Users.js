@@ -51,6 +51,7 @@ const Users = () => {
     const updatedUsers = users.filter((user) => user.id !== id);
     setUsers(updatedUsers);
     localStorage.setItem("userData", JSON.stringify(updatedUsers));
+    
   };
 
 
@@ -62,15 +63,15 @@ const Users = () => {
   return (
     <>
       <CustomNavbar />
-      <br />
+     
       <div className="App users-container">
-        <header className="header-container">
-          <h2 className="users-heading">User Details</h2>
+        <div className="header-container">
+          <h1 className="users-heading">User Details</h1>
           <Link to="/adduser">
             <button className="add-user-button">Add User</button>
           </Link>
-        </header>
-        
+        </div>
+        <br/>
           <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
       </div>
     </>

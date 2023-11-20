@@ -87,7 +87,7 @@ export default function ProjectForm() {
 
     // Reset the form and navigate to the projects page
     reset();
-    navigate("/projects");
+    navigate(-1);
   };
 
   // Handle user selection change
@@ -97,6 +97,15 @@ export default function ProjectForm() {
       (option) => option.value
     );
     setSelectedUsers(selectedUserIds);
+    // Update userData in local storage
+    const updatedUserData = userData.map((user) => ({
+      ...user,
+      projects: selectedUserIds.includes(user.id)
+        ? [...user.projects, id]
+        : user.projects.filter((projectId) => projectId !== id),
+    }));
+
+    localStorage.setItem("userData", JSON.stringify(updatedUserData));
   };
 
   // Display error messages for form fields
@@ -181,7 +190,7 @@ export default function ProjectForm() {
           {displayError("techStack")}
         </div>
         <div className="form-element">
-          <label>Assign Users</label>
+          <label>Assign Users:<br/> *Note: Hold CTRL to select multiple users</label>
           <select
             name="selectedUsers"
             multiple
@@ -212,12 +221,14 @@ export default function ProjectForm() {
           </div>
         </div>
         <div className="form-element">
-          <Button type="submit">{id ? "Save" : "Submit"}</Button>
-          {id && (
-            <Link to="/projects">
-              <Button>Cancel</Button>
-            </Link>
-          )}
+          <div className="button-wrapper">
+            <Button type="submit">{id ? "Save" : "Submit"}</Button>
+            {id && (
+              <Link to="/projects">
+                <Button>Cancel</Button>
+              </Link>
+            )}
+          </div>
         </div>
       </form>
     </>

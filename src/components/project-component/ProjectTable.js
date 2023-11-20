@@ -1,95 +1,102 @@
-// ProjectsTable.js
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PersonAddIcon from "@mui/icons-material/PersonAdd"; // Added Assign User icon
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import AssignUsersModal from "../styled-components/AssignUserModal";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import "./css/ProjectTable.css";
 
-import AssignUsersModal from "../styled-components/AssignUserModal";
-
 export default function ProjectsTable({ projects, onDelete }) {
-  // State to manage the delete confirmation modal
   const [openModal, setOpenModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
-
-  // State to manage the assign users modal
   const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  // Function to open the delete confirmation modal
+   const [snackbarOpen, setSnackbarOpen] = useState(false);
+   
+
   const openDeleteModal = (projectId) => {
     setSelectedProjectId(projectId);
     setOpenModal(true);
   };
 
-  // Function to close the delete confirmation modal
   const closeDeleteModal = () => {
     setSelectedProjectId(null);
     setOpenModal(false);
   };
 
-  // Function to open the assign users modal
   const openAssignUsersModal = (projectId) => {
-    // Find the project with the selected ID
-    console.log("proint")
     const project = projects.find((p) => p.id === projectId);
-
-    // Set the selected users and project ID for assign users modal
-    console.log(project);
     setSelectedUsers(project.selectedUsers || []);
     setSelectedProjectId(projectId);
     setAssignUsersModalOpen(true);
   };
 
-  // Function to close the assign users modal
   const closeAssignUsersModal = () => {
     setSelectedProjectId(null);
     setAssignUsersModalOpen(false);
   };
 
-  // Function to handle the confirmation of user assignment to a project
-  const handleAssignUsersConfirm = () => {
-    // Update the projects with the selected users
-    const updatedProjects = projects.map((project) => {
-      if (project.id === selectedProjectId) {
-        return {
-          ...project,
-          selectedUsers: selectedUsers,
-        };
-      }
-      return project;
-    });
+  const userData = JSON.parse(localStorage.getItem("userData")) || [];
 
-    // Save the updated project data to local storage
-    localStorage.setItem("projectData", JSON.stringify(updatedProjects));
+ const handleAssignUsersConfirm = () => {
+   const updatedProjects = projects.map((project) => {
+     if (project.id === selectedProjectId) {
+       return {
+         ...project,
+         selectedUsers: selectedUsers,
+       };
+     }
+     return project;
+   });
 
-    // Update user data with project assignments
-    const updatedUserData = userData.map((user) => {
-      if (selectedUsers.includes(user.id)) {
-        const userProjects = user.projects || [];
-        if (!userProjects.includes(selectedProjectId)) {
-          userProjects.push(selectedProjectId);
-        }
-        return {
-          ...user,
-          projects: userProjects,
-        };
-      }
-      return user;
-    });
-    
+   localStorage.setItem("projectData", JSON.stringify(updatedProjects));
 
-    // Save the updated user data to local storage
-    localStorage.setItem("userData", JSON.stringify(updatedUserData));
+   const updatedUserData = userData.map((user) => {
+     if (selectedUsers.includes(user.id)) {
+       const userProjects = user.projects || [];
+       if (!userProjects.includes(selectedProjectId)) {
+         userProjects.push(selectedProjectId);
+       }
+       return {
+         ...user,
+         projects: userProjects,
+       };
+     } else {
+       const userProjects = user.projects || [];
+       const projectIndex = userProjects.indexOf(selectedProjectId);
+       if (projectIndex !== -1) {
+         userProjects.splice(projectIndex, 1);
+       }
+       return {
+         ...user,
+         projects: userProjects,
+       };
+     }
+   });
+   console.log(updatedUserData)
+   localStorage.setItem("userData", JSON.stringify(updatedUserData));
 
-    // Close the assign users modal
-    closeAssignUsersModal();
-  };
+   console.log("Updated userData", updatedUserData);
 
-    const userData = JSON.parse(localStorage.getItem("userData")) || [];
+   // Show a Snackbar notification
+   setSnackbarOpen(true);
+
+   closeAssignUsersModal();
+ };
+ const handleSnackbarClose = (event, reason) => {
+   if (reason === "clickaway") {
+     return;
+   }
+   setSnackbarOpen(false);
+ };
 
   if (projects.length === 0 || typeof projects === "undefined") {
     return (
@@ -98,7 +105,10 @@ export default function ProjectsTable({ projects, onDelete }) {
       </div>
     );
   }
-
+   
+  // console.log("Asmir Khan",userData.at(0).projects);
+  // console.log("Madhu",userData.at(1).projects);
+  // console.log("Michael", userData.at(2).projects);
   return (
     <>
       <div className="table-container">
@@ -108,7 +118,11 @@ export default function ProjectsTable({ projects, onDelete }) {
               <CardContent>
                 <Typography variant="h6">{project.name}</Typography>
                 <Typography>Description: {project.description}</Typography>
-                <Link to={`/project-details/${project.id}`}>View Details</Link>
+                <Link to={`/project-details/${project.id}`}>
+                  <Button variant="outlined" color="primary">
+                    View more details
+                  </Button>
+                </Link>
               </CardContent>
               <div className="project-icons-container">
                 <Link to={`/editproject/${project.id}`}>
@@ -126,7 +140,6 @@ export default function ProjectsTable({ projects, onDelete }) {
             </Card>
           ))}
         </div>
-        {/* ... (remaining code) */}
       </div>
       <AssignUsersModal
         open={assignUsersModalOpen}
@@ -136,6 +149,45 @@ export default function ProjectsTable({ projects, onDelete }) {
         onConfirm={handleAssignUsersConfirm}
         userData={userData}
       />
+      <Modal open={openModal} onClose={closeDeleteModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography variant="h6">Delete Confirmation</Typography>
+          <Typography>Are you sure you want to delete this project?</Typography>
+          <Button
+            variant="contained"
+            onClick={() => onDelete(selectedProjectId)}
+          >
+            Delete
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={closeDeleteModal}
+            style={{ marginLeft: "10px" }}
+          >
+            Cancel
+          </Button>
+        </Box>
+      </Modal>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+      >
+        <MuiAlert onClose={handleSnackbarClose} severity="success">
+          User added successfully!
+        </MuiAlert>
+      </Snackbar>
     </>
   );
 }
