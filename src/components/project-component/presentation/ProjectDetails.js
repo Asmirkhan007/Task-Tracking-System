@@ -2,19 +2,19 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./css/ProjectDetails.css";
-import projectImage from "../../assets/project-icon-img.jpg";
-import noUser from "../../assets/no-user.webp";
-import CustomNavbar from "../styled-components/Navbar";
+import "../css/ProjectDetails.css";
+import projectImage from "../../../assets/project-icon-img.jpg";
+import noUser from "../../../assets/no-user.webp";
+import CustomNavbar from "../../styled-components/Navbar";
 import EditIcon from "@mui/icons-material/Edit";
-import AssignUsersModal from "../styled-components/AssignUserModal";
+import AssignUsersModal from "../../styled-components/AssignUserModal";
 import Button from "@mui/material/Button";
 
 export default function ProjectDetails() {
   const { id } = useParams();
   const [projectDetails, setProjectDetails] = useState(null);
-   const [userDetails, setUserDetails] = useState(null);
-     const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
   const adminLogIn = JSON.parse(localStorage.getItem("isLoggedIn")) === true;
   useEffect(() => {
     // Fetch project details from local storage based on the project ID
@@ -24,10 +24,10 @@ export default function ProjectDetails() {
         const projectDataFromStorage = JSON.parse(
           localStorage.getItem("projectData")
         );
-         const users = JSON.parse(localStorage.getItem("userData"));
-         if (users) {
-           setUserDetails(users);
-         }
+        const users = JSON.parse(localStorage.getItem("userData"));
+        if (users) {
+          setUserDetails(users);
+        }
 
         if (projectDataFromStorage) {
           // Find the project with the matching ID
@@ -57,7 +57,7 @@ export default function ProjectDetails() {
     // Render loading state or handle no project details
     return <p>Loading...</p>;
   }
- 
+
   return (
     <>
       <CustomNavbar />
@@ -71,9 +71,11 @@ export default function ProjectDetails() {
             />
             <div className="header-content">
               <h2>{projectDetails.name}</h2>
-              {adminLogIn ?<Link to={`/editproject/${id}`}>
-                <EditIcon color="primary" className="EditIcon" />
-              </Link>: null}
+              {adminLogIn ? (
+                <Link to={`/editproject/${id}`}>
+                  <EditIcon color="primary" className="EditIcon" />
+                </Link>
+              ) : null}
             </div>
           </div>
           <div className="details-info">
@@ -94,13 +96,13 @@ export default function ProjectDetails() {
                   <div className="user-card" key={user.id}>
                     <h3>{user.name}</h3>
                     <p>{user.role}</p>
-                    {adminLogIn ?
-                    <Link to={`/user-details/${user.id}`}>
-                      <Button variant="outlined" color="primary">
-                        View more details
-                      </Button>
-                    </Link>
-                    :null}
+                    {adminLogIn ? (
+                      <Link to={`/user-details/${user.id}`}>
+                        <Button variant="outlined" color="primary">
+                          View more details
+                        </Button>
+                      </Link>
+                    ) : null}
                   </div>
                 );
               })
@@ -113,7 +115,6 @@ export default function ProjectDetails() {
                 />
                 <p>No users assigned yet.</p>
                 <Link to={`/editproject/${id}`}>
-                 
                   <button>Add User</button>
                 </Link>
                 {/* <button

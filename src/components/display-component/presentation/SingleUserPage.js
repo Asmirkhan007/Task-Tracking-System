@@ -1,32 +1,12 @@
 import React from "react";
-import "./SingleUserPage.css";
-import profileImage from "../../assets/profile-photo.webp";
-import CustomNavbar from "../styled-components/Navbar";
-import noProjectsImage from "../../assets/no-project.avif";
-import "../user-component/css/UserDetails.css";
- import Logout from "../login-component/Logout";
- import { Link } from "react-router-dom";
- import Button from "@mui/material/Button";
+import "../SingleUserPage.css";
+import profileImage from "../../../assets/profile-photo.webp";
+import CustomNavbar from "../../styled-components/Navbar";
+import noProjectsImage from "../../../assets/no-project.avif";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
 
-export default function SingleUserPage() {
-  // Retrieve the logged-in user and project data from localStorage
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-  const projectData = JSON.parse(localStorage.getItem("projectData")) || [];
-
-  // Function to filter and get project details based on the user's assigned project IDs
-  const getUserProjects = () => {
-    if (loggedInUser && loggedInUser.projects) {
-      return projectData.filter((project) =>
-        loggedInUser.projects.includes(project.id)
-      );
-    }
-    return [];
-  };
-
-  // Call the function to get user's assigned projects
-  const userProjects = getUserProjects();
-  console.log("userProjects", userProjects)
-  // Render the user profile and assigned projects
+const SingleUserPage = ({ loggedInUser, userProjects, projectData }) => {
   return (
     <>
       <CustomNavbar />
@@ -59,7 +39,7 @@ export default function SingleUserPage() {
                 const project = projectData.find(
                   (proj) => proj.id === projectId.id
                 );
-                console.log(projectId.id)
+                console.log(projectId.id);
                 return (
                   project && (
                     <div className="project-card" key={project.id}>
@@ -89,4 +69,6 @@ export default function SingleUserPage() {
       </div>
     </>
   );
-}
+};
+
+export default SingleUserPage;

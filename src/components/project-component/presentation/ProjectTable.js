@@ -9,19 +9,18 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import AssignUsersModal from "../styled-components/AssignUserModal";
+import AssignUsersModal from "../../styled-components/AssignUserModal";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import "./css/ProjectTable.css";
+import "../css/ProjectTable.css";
 
-export default function ProjectsTable({ projects, onDelete }) {
+const ProjectsTable = ({ projects, onDelete, onEdit }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [assignUsersModalOpen, setAssignUsersModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
-   const [snackbarOpen, setSnackbarOpen] = useState(false);
-   
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const openDeleteModal = (projectId) => {
     setSelectedProjectId(projectId);
     setOpenModal(true);
@@ -44,59 +43,58 @@ export default function ProjectsTable({ projects, onDelete }) {
     setAssignUsersModalOpen(false);
   };
 
-  const userData = JSON.parse(localStorage.getItem("userData")) || [];
+  const handleAssignUsersConfirm = () => {
+    const updatedProjects = projects.map((project) => {
+      if (project.id === selectedProjectId) {
+        return {
+          ...project,
+          selectedUsers: selectedUsers,
+        };
+      }
+      return project;
+    });
 
- const handleAssignUsersConfirm = () => {
-   const updatedProjects = projects.map((project) => {
-     if (project.id === selectedProjectId) {
-       return {
-         ...project,
-         selectedUsers: selectedUsers,
-       };
-     }
-     return project;
-   });
+    localStorage.setItem("projectData", JSON.stringify(updatedProjects));
 
-   localStorage.setItem("projectData", JSON.stringify(updatedProjects));
+    const updatedUserData = userData.map((user) => {
+      if (selectedUsers.includes(user.id)) {
+        const userProjects = user.projects || [];
+        if (!userProjects.includes(selectedProjectId)) {
+          userProjects.push(selectedProjectId);
+        }
+        return {
+          ...user,
+          projects: userProjects,
+        };
+      } else {
+        const userProjects = user.projects || [];
+        const projectIndex = userProjects.indexOf(selectedProjectId);
+        if (projectIndex !== -1) {
+          userProjects.splice(projectIndex, 1);
+        }
+        return {
+          ...user,
+          projects: userProjects,
+        };
+      }
+    });
 
-   const updatedUserData = userData.map((user) => {
-     if (selectedUsers.includes(user.id)) {
-       const userProjects = user.projects || [];
-       if (!userProjects.includes(selectedProjectId)) {
-         userProjects.push(selectedProjectId);
-       }
-       return {
-         ...user,
-         projects: userProjects,
-       };
-     } else {
-       const userProjects = user.projects || [];
-       const projectIndex = userProjects.indexOf(selectedProjectId);
-       if (projectIndex !== -1) {
-         userProjects.splice(projectIndex, 1);
-       }
-       return {
-         ...user,
-         projects: userProjects,
-       };
-     }
-   });
-   console.log(updatedUserData)
-   localStorage.setItem("userData", JSON.stringify(updatedUserData));
+    localStorage.setItem("userData", JSON.stringify(updatedUserData));
 
-   console.log("Updated userData", updatedUserData);
+    console.log("Updated userData", updatedUserData);
 
-   // Show a Snackbar notification
-   setSnackbarOpen(true);
+    // Show a Snackbar notification
+    setSnackbarOpen(true);
 
-   closeAssignUsersModal();
- };
- const handleSnackbarClose = (event, reason) => {
-   if (reason === "clickaway") {
-     return;
-   }
-   setSnackbarOpen(false);
- };
+    closeAssignUsersModal();
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   if (projects.length === 0 || typeof projects === "undefined") {
     return (
@@ -105,10 +103,7 @@ export default function ProjectsTable({ projects, onDelete }) {
       </div>
     );
   }
-   
-  // console.log("Asmir Khan",userData.at(0).projects);
-  // console.log("Madhu",userData.at(1).projects);
-  // console.log("Michael", userData.at(2).projects);
+
   return (
     <>
       <div className="table-container">
@@ -190,4 +185,6 @@ export default function ProjectsTable({ projects, onDelete }) {
       </Snackbar>
     </>
   );
-}
+};
+
+export default ProjectsTable;

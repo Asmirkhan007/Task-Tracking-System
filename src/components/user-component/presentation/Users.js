@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserTable from "./UserTable";
-import "./css/Users.css";
-import userArray from "./userArray";
-import CustomNavbar from "../styled-components/Navbar";
+import "../css/Users.css";
+import userArray from "../userArray";
+import CustomNavbar from "../../styled-components/Navbar";
 import { v4 as uuidv4 } from "uuid";
 
 const Users = () => {
@@ -51,10 +51,7 @@ const Users = () => {
     const updatedUsers = users.filter((user) => user.id !== id);
     setUsers(updatedUsers);
     localStorage.setItem("userData", JSON.stringify(updatedUsers));
-    
   };
-
-
 
   if (loading) {
     return <div>Loading...</div>; // Show a loading indicator while fetching data
@@ -63,7 +60,7 @@ const Users = () => {
   return (
     <>
       <CustomNavbar />
-     
+
       <div className="App users-container">
         <div className="header-container">
           <h1 className="users-heading">User Details</h1>
@@ -71,8 +68,8 @@ const Users = () => {
             <button className="add-user-button">Add User</button>
           </Link>
         </div>
-        <br/>
-          <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
+        <br />
+        <UserTable users={users} onEdit={editUser} onDelete={handleDelete} />
       </div>
     </>
   );

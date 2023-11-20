@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "../styled-components/Modal";
+import Modal from "../../styled-components/Modal";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";

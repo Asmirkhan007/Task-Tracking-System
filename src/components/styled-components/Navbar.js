@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Button } from "react-bootstrap";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import logo from "../../assets/thiran.jpg";
-import Logout from "../login-component/Logout";
+import Logout from "../login-component/container/LogoutContainer";
 import "./Navbar.css"; // Import the CSS file
 
 const CustomNavbar = () => {
@@ -18,11 +18,10 @@ const CustomNavbar = () => {
       <Navbar.Collapse className="justify-content-start">
         <Button variant="outline-light" onClick={goBack}>
           <ArrowBackIcon />
-          
         </Button>
         <Navbar.Brand as={Link} to="/">
           <img src={logo} className="navbar-brand-img" alt="Thiran Logo" />
-          <span className="navbar-brand-text">'s  TMS</span>
+          <span className="navbar-brand-text">'s TMS</span>
         </Navbar.Brand>
       </Navbar.Collapse>
 

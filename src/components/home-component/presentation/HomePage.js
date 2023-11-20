@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import CustomNavbar from "../styled-components/Navbar";
+import CustomNavbar from "../../styled-components/Navbar";
 import styled from "styled-components";
-import projectsImage from "../../assets/projects.png";
+import projectsImage from "../../../assets/projects.png";
 import Typography from "@mui/material/Typography";
-import "./HomePage.css";
-import usersImage from "../../assets/users.png";
+import "../HomePage.css";
+import usersImage from "../../../assets/users.png";
 import {
   MainContent,
   NavigationBox,
-} from "../styled-components/StyledComponents";
+} from "../../styled-components/StyledComponents";
 
 // Styled-components used for layout styling
 const GridLayout = styled.div`
@@ -25,11 +25,11 @@ const Home = () => {
       <CustomNavbar />
       <br />
       <br />
-        <div className="home-container">
+      <div className="home-container">
         <Typography variant="h3" className="header">
           Manage your projects seamlessly with TMS
         </Typography>
-        </div>
+      </div>
       <MainContent>
         <GridLayout>
           <Link to="/users">

@@ -8,7 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import "./css/UserTable.css";
+import "../css/UserTable.css";
 
 export default function UserTable({ users, onDelete }) {
   const [openModal, setOpenModal] = useState(false);

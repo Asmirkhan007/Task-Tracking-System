@@ -40,8 +40,7 @@ input[type="number"] {
 
 /* Button styles */
 Button {
-  background-color: #007bff;
-  color: #fff;
+  
   border: none;
   border-radius: 5px;
   padding: 10px 20px;

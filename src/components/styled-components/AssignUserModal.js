@@ -29,7 +29,7 @@ const AssignUsersModal = ({
     onClose();
     // Assuming you don't want to reload the whole page, use appropriate logic here
   };
-
+  console.log(userData);
   return (
     <Modal open={open} onClose={onClose}>
       <Box

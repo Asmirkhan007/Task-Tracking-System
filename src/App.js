@@ -1,20 +1,21 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Users from "./components/user-component/Users";
-import UserForm from "./components/user-component/UserForm";
-import Home from "./components/home-component/HomePage";
-import Projects from "./components/project-component/Projects";
-import ProjectForm from "./components/project-component/ProjectForm";
-import Login from "./components/login-component/Login";
-import SingleUserPage from "./components/display-component/SingleUserPage";
-import UserDetails from "./components/user-component/UserDetails";
-import ProjectDetails from "./components/project-component/ProjectDetails";
+import Users from "./components/user-component/presentation/Users";
+import UserForm from "./components/user-component/presentation/UserForm";
+import Home from "./components/home-component/presentation/HomePage";
+import Projects from "./components/project-component/container/ProjectsContainer";
+import ProjectForm from "./components/project-component/presentation/ProjectForm";
+import Login from "./components/login-component/container/LoginContainer";
+import SingleUserPage from "./components/display-component/container/SingleUserPageContainer";
+import UserDetails from "./components/user-component/container/UserDetailsContainer";
+import ProjectDetails from "./components/project-component/presentation/ProjectDetails";
 
 function App() {
   // State to manage user login status
-   const currentLogInStatus = JSON.parse(localStorage.getItem("isLoggedIn")) === true;
+  const currentLogInStatus =
+    JSON.parse(localStorage.getItem("isLoggedIn")) === true;
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(currentLogInStatus);
-  
+
   return (
     <Routes>
       <Route
@@ -60,7 +61,7 @@ function App() {
       <Route
         path="/project-details/:id"
         // Render the SingleUserPage component to display a single user's information
-        element={<ProjectDetails/>}
+        element={<ProjectDetails />}
       />
       <Route
         path="/editproject/:id"

@@ -1,58 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import profileImage from "../../assets/profile-photo.webp";
-import CustomNavbar from "../styled-components/Navbar";
-import noProjectsImage from '../../assets/no-project.avif'
-import "./css/UserDetails.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import profileImage from "../../../assets/profile-photo.webp";
+import CustomNavbar from "../../styled-components/Navbar";
+import noProjectsImage from "../../../assets/no-project.avif";
 import Button from "@mui/material/Button";
+import "../css/UserDetails.css";
 
-export default function UserDetails() {
-  const { id } = useParams();
-  const [userDetails, setUserDetails] = useState(null);
-  const [projectDetails, setProjectDetails] = useState(null);
+const UserDetailsPresentation = ({ userDetails, projectDetails }) => {
+  const userProjects = userDetails.projects || [];
 
-  useEffect(() => {
-    // Fetch user details from local storage based on the user ID
-    const fetchUserDetails = () => {
-      try {
-        // Assuming user data is stored in localStorage under the key 'userData'
-        const userDataFromStorage = JSON.parse(
-          localStorage.getItem("userData")
-        );
-        const dummyProjects = JSON.parse(localStorage.getItem("projectData"));
-        if (dummyProjects) {
-          setProjectDetails(dummyProjects);
-          console.log(projectDetails);
-        }
-        console.log(userDataFromStorage);
-        if (userDataFromStorage) {
-          // Find the user with the matching ID
-          const user = userDataFromStorage.find((user) => user.id === id);
-          console.log(user);
-          if (user) {
-            setUserDetails(user);
-          } else {
-            // Handle case where user with the specified ID is not found
-            console.error("User not found");
-          }
-        } else {
-          // Handle case where user data is not available in local storage
-          console.error("User data not found in local storage");
-        }
-      } catch (error) {
-        console.error("Error fetching user details", error);
-      }
-    };
-
-    fetchUserDetails();
-  }, [id]);
-
-  if (!userDetails) {
-    // Render loading state or handle no user details
-    return <p>Loading...</p>;
-  }
-  console.log(userDetails.project)
-   const userProjects = userDetails.projects || [];
   return (
     <>
       <CustomNavbar />
@@ -79,7 +35,7 @@ export default function UserDetails() {
         <div className="projects-container">
           <div className="projects-scrollable">
             <h2>Assigned Projects</h2>
-            <br/>
+            <br />
             {userProjects.length > 0 && userProjects !== "undefined" ? (
               userProjects.map((projectId) => {
                 const project = projectDetails.find(
@@ -114,4 +70,6 @@ export default function UserDetails() {
       </div>
     </>
   );
-}
+};
+
+export default UserDetailsPresentation;

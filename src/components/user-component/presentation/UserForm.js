@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid"; // Import UUID generation function
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Button from "../styled-components/Button";
-import CustomNavbar from "../styled-components/Navbar";
-import "./css/UserForm.css";
+import Button from "../../styled-components/Button";
+import CustomNavbar from "../../styled-components/Navbar";
+import "../css/UserForm.css";
 
 export default function UserForm() {
   // Get the user ID from the URL params
