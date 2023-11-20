@@ -1,51 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { Navbar, Button } from "react-bootstrap";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import logo from "../../assets/thiran.jpg";
+import Logout from "../login-component/container/LogoutContainer";
 import "./Navbar.css"; // Import the CSS file
-import Logout from "../login-component/Logout";
-
 
 const CustomNavbar = () => {
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // This will go back one step in the history
+  };
+
   return (
-    <Navbar bg="dark" variant="dark">
-      <Navbar.Brand as={Link} to="/">
-        <img
-          src={logo}
-          className="navbar-brand-img" // Apply your custom class to the image
-          alt="Thiran Logo"
-        />
-        <span className="navbar-brand-text centered-text">
-          Task Management System
-        </span>
-      </Navbar.Brand>
-      <Nav className="ml-auto">
-        <NavDropdown
-          title="Users"
-          id="basic-nav-dropdown"
-          className="nav-dropdown-item"
-        >
-          <NavDropdown.Item as={Link} to="/adduser">
-            Add Users
-          </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/users">
-            Users Table
-          </NavDropdown.Item>
-        </NavDropdown>
-        <NavDropdown
-          title="Project"
-          id="basic-nav-dropdown"
-          className="nav-dropdown-item"
-        >
-          <NavDropdown.Item as={Link} to="/addproject">
-            Add Projects
-          </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/projects">
-            Project Table
-          </NavDropdown.Item>
-        </NavDropdown>
-      </Nav>
-      <Logout />
+    <Navbar bg="dark" variant="dark" className="justify-content-between">
+      <Navbar.Collapse className="justify-content-start">
+        <Button variant="outline-light" onClick={goBack}>
+          <ArrowBackIcon />
+        </Button>
+        <Navbar.Brand as={Link} to="/">
+          <img src={logo} className="navbar-brand-img" alt="Thiran Logo" />
+          <span className="navbar-brand-text">'s TMS</span>
+        </Navbar.Brand>
+      </Navbar.Collapse>
+
+      <Navbar.Collapse className="justify-content-end">
+        <Logout />
+      </Navbar.Collapse>
     </Navbar>
   );
 };

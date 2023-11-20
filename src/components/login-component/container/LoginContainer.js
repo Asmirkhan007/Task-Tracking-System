@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import dummyProjects from "../project-component/projectArray";
-import userArray from "../user-component/userArray";
 import { v4 as uuidv4 } from "uuid";
-import "./Login.css";
-import loginImage from "../../assets/login.avif";
+import Login from "../presentation/Login";
+import dummyProjects from "../../project-component/projectArray";
+import userArray from "../../user-component/userArray";
 
-const Login = ({ setUserIsLoggedIn }) => {
+const LoginContainer = ({ setUserIsLoggedIn }) => {
   const {
     register,
     handleSubmit,
@@ -83,53 +82,15 @@ const Login = ({ setUserIsLoggedIn }) => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-box">
-        <div className="illustration-wrapper">
-          <img src={loginImage} alt="Login" />
-        </div>
-        <form
-          name="login-form"
-          onSubmit={handleSubmit(onSubmit)}
-          id="login-form"
-        >
-          <p className="form-title">Welcome back</p>
-          <p>Login to the Dashboard</p>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <div className="form-item">
-            <label htmlFor="username">Username or Email Id</label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              {...register("username", { required: "Username is required" })}
-            />
-            {errors.username && (
-              <p className="error-message">{errors.username.message}</p>
-            )}
-          </div>
-          <div className="form-item">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              {...register("password", { required: "Password is required" })}
-            />
-            {errors.password && (
-              <p className="error-message">{errors.password.message}</p>
-            )}
-          </div>
-          <br />
-          <div className="form-item">
-            <button type="submit" className="login-form-button">
-              LOGIN
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <Login
+      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
+      register={register}
+      setValue={setValue}
+      errors={errors}
+      errorMessage={errorMessage}
+    />
   );
 };
 
-export default Login;
+export default LoginContainer;

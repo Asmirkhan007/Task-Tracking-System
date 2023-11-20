@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Button from "../styled-components/Button";
-import "./css/ProjectForm.css";
-import CustomNavbar from "../styled-components/Navbar";
+import Button from "../../styled-components/Button";
+import "../css/ProjectForm.css";
+import CustomNavbar from "../../styled-components/Navbar";
 
 export default function ProjectForm() {
   // Get the project ID from the URL params
@@ -55,7 +55,7 @@ export default function ProjectForm() {
         const projectToEdit = projectData.find((project) => project.id === id);
         if (projectToEdit) {
           // Reset the form with project data and set selected users
-          console.log(projectToEdit)
+          console.log(projectToEdit);
           reset(projectToEdit);
           setSelectedUsers(projectToEdit.selectedUsers || []);
         }
@@ -87,16 +87,30 @@ export default function ProjectForm() {
 
     // Reset the form and navigate to the projects page
     reset();
-    navigate("/projects");
+    navigate(-1);
   };
 
-  // Handle user selection change
   const handleUserSelectChange = (e) => {
     const selectedUserIds = Array.from(
       e.target.selectedOptions,
       (option) => option.value
     );
+
     setSelectedUsers(selectedUserIds);
+
+    // Update userData in local storage
+    console.log("userData", userData);
+
+    const updatedUserData = userData.map((user) => ({
+      ...user,
+      projects: user.projects
+        ? selectedUserIds.includes(user.id)
+          ? [...user.projects, id]
+          : user.projects.filter((projectId) => projectId !== id)
+        : [], // Ensure user.projects is initialized as an array
+    }));
+
+    localStorage.setItem("userData", JSON.stringify(updatedUserData));
   };
 
   // Display error messages for form fields
@@ -181,7 +195,10 @@ export default function ProjectForm() {
           {displayError("techStack")}
         </div>
         <div className="form-element">
-          <label>Assign Users</label>
+          <label>
+            Assign Users:
+            <br /> *Note: Hold CTRL to select multiple users
+          </label>
           <select
             name="selectedUsers"
             multiple
@@ -212,12 +229,14 @@ export default function ProjectForm() {
           </div>
         </div>
         <div className="form-element">
-          <Button type="submit">{id ? "Save" : "Submit"}</Button>
-          {id && (
-            <Link to="/projects">
-              <Button>Cancel</Button>
-            </Link>
-          )}
+          <div className="button-wrapper">
+            <Button type="submit">{id ? "Save" : "Submit"}</Button>
+            {id && (
+              <Link to="/projects">
+                <Button>Cancel</Button>
+              </Link>
+            )}
+          </div>
         </div>
       </form>
     </>

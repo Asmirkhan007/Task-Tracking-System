@@ -1,62 +1,40 @@
 /* UserTable.css */
-.table-container {
-  margin: 20px;
+
+.user-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px; /* Add some gap between the cards */
 }
 
-h2 {
-  font-size: 24px;
-  margin: 0 0 20px 0;
+.user-card {
+  flex: 1 0 calc(33.33% - 20px); /* Three cards in a row with 20px gap */
+  max-width: calc(33.33% - 20px);
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Add some bottom margin to improve spacing */
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
+.view-details-link {
+  text-decoration: none;
+  margin-top: 10px;
+  display: block;
+  text-align: center;
 }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: left;
-  padding: 10px;
-  border: 1px solid #ccc;
+.icon-link {
+  margin-right: 10px;
+  text-decoration: none;
 }
 
-td {
-  padding: 10px;
-  border: 1px solid #ccc;
+.user-icons-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #e0e0e0;
-}
-
-/* Add User Button Container */
-
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  table {
-    font-size: 14px;
+/* Responsive styles (adjust as needed) */
+@media (max-width: 600px) {
+  .user-card {
+    width: 100%;
   }
-
-  th,
-  td {
-    padding: 8px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-}
-.delete-data{
-  background-color: red;
-  color: white
-}
-.user-info {
-  color: red;
 }

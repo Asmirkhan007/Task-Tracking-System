@@ -1,66 +1,39 @@
-/* UserTable.css */
-.table-container {
+/* ProjectsTable.css */
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.table-container .card-container .project-card {
+  width: calc(33.33% - 40px);
   margin: 20px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.project-card a {
+  text-decoration: none;
+  color: #1976d2; /* Link color */
 }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: left;
-  padding: 10px;
-  border: 1px solid #ccc;
+.project-icons-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.project-icons-container > * {
+  margin-right: 10px; /* Adjust the space between icons as needed */
 }
 
-td {
-  padding: 10px;
-  border: 1px solid #ccc;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #e0e0e0;
-}
-
-h2 {
-  font-size: 24px;
-  margin: 0 0 20px 0;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  table {
-    font-size: 14px;
-  }
-
-  th,
-  td {
-    padding: 8px;
-  }
-
-  h2 {
-    font-size: 20px;
+/* Responsive styles (adjust as needed) */
+@media (max-width: 1200px) {
+  .project-card {
+    width: calc(50% - 40px);
   }
 }
-th.assign-users-col,
-td.assign-users-col {
-  width: 11%;
-}
-.assign-user{
-  background-color: green;
-  color: white
-}
-.delete-data{
-  background-color: red;
-  color: white
-}
-.user-info {
-  color: red;
+
+@media (max-width: 600px) {
+  .project-card {
+    width: 100%;
+  }
 }

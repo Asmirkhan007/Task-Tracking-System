@@ -40,8 +40,7 @@ input[type="number"] {
 
 /* Button styles */
 Button {
-  background-color: #007bff;
-  color: #fff;
+  
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -83,4 +82,9 @@ Link {
 
 .inline-radio div {
   margin-right: 20px; /* Adjust the margin between radio button groups as needed */
+}
+.button-wrapper {
+  display: flex;
+  gap: 10px; /* Adjust the gap between buttons as needed */
+  align-items: center; /* Center vertically */
 }
